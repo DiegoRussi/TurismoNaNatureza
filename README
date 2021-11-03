@@ -1,0 +1,19 @@
+# Projeto
+
+/src
+    /assets
+    /components
+    /screens
+    /styles
+
+---
+
+# Comandos
+
+$ npx react-native init TurismoNaNatureza --version 0.64.2
+$ cd TurismoNaNatureza
+$ yarn.cmd add @react-native-mapbox-gl/maps@8.2.1
+
+---
+
+# TODO
