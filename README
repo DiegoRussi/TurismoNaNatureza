@@ -12,8 +12,21 @@
 
 $ npx react-native init TurismoNaNatureza --version 0.64.2
 $ cd TurismoNaNatureza
+
+## Mapbox
 $ yarn.cmd add @react-native-mapbox-gl/maps@8.2.1
+
+## Navigation
+yarn.cmd add react-navigation
+yarn add react-native-gesture-handler
+react-native link react-native-gesture-handler
+
+## Geolocation
 
 ---
 
 # TODO
+
+use another FAB component
+https://callstack.github.io/react-native-paper/
+https://callstack.github.io/react-native-paper/fab.html
