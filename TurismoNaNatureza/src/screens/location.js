@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
 
-class HomeScreen extends Component {
+class LocationScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontSize: 50 }}>Tela Inicial</Text>
+          <Text style={{ fontSize: 50 }}>Tela LocationScreen</Text>
         </View>
 
         <View style={{ margin: 20 }}>
           <Button
-            title='Entrar'
-            onPress={() => this.props.navigation.navigate('Map')}
+            title='Voltar'
+            onPress={() => this.props.navigation.navigate('Home')}
           />
         </View>
 
@@ -22,4 +22,4 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+export default LocationScreen

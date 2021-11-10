@@ -1,13 +1,5 @@
-import Home from './home';
-import About from './about';
+import HomeScreen from './home';
+import MapScreen from './map';
+import LocationScreen from './location';
 
-import { createSwitchNavigator, createAppContainer } from 'react-navigation';
-
-const mainNavigation = createAppContainer( 
-    createSwitchNavigator({
-        Home,
-        About,
-    })
-);
-
-export default mainNavigation;
+export {HomeScreen, MapScreen, LocationScreen}
