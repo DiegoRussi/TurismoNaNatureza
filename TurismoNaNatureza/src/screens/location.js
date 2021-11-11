@@ -13,7 +13,7 @@ class LocationScreen extends Component {
         <View style={{ margin: 20 }}>
           <Button
             title='Voltar'
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.navigate('Map')}
           />
         </View>
 
