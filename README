@@ -20,8 +20,14 @@ $ yarn.cmd add @react-native-mapbox-gl/maps@8.2.1
 
 ## Navigation
 $ yarn.cmd add react-navigation
+$ yarn.cmd add react-navigation-stack
+
+dependencies
 $ yarn.cmd add react-native-gesture-handler
 $ npx react-native link react-native-gesture-handler
+$ yarn.cmd add react-native-reanimated
+$ yarn.cmd add react-native-screens
+$ yarn.cmd add react-native-safe-area-context
 
 ## Geolocation
 
@@ -36,6 +42,8 @@ $ npx react-native link
 ---
 
 # TODO
+
+use react-native-paper
 
 use another FAB component
 https://callstack.github.io/react-native-paper/

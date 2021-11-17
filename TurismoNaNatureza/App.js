@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import {HomeScreen, MapScreen, LocationScreen} from './src/screens/index';
 
-const AppNavigator = createSwitchNavigator(
+const AppNavigator = createStackNavigator(
   {
     Home: {
       screen: HomeScreen
