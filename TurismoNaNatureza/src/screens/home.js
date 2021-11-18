@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Button, StyleSheet } from 'react-native';
+import { View, Image, Text, Button } from 'react-native';
+
+import styles from '../styles/homeStyles'
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -47,40 +49,5 @@ class HomeScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  subContainer: {
-    alignItems: 'center',
-    margin: 20
-  },
-  logo: {
-    width: 200,
-    height: 200,
-  },
-  content:{
-      marginTop: -20,
-      paddingHorizontal: 25
-  },
-  title:{
-      color: 'green',
-      textAlign: 'center',
-      fontSize: 35,
-      marginBottom: 16,
-  },
-  subtitle:{
-      color: 'green',
-      textAlign: 'center',
-      fontSize: 15,
-      marginBottom: 10,
-  },
-  button: {
-    margin: 20
-  }
-});
 
 export default HomeScreen;
