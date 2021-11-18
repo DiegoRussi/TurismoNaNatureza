@@ -3,7 +3,7 @@ import { Button, View, Text } from 'react-native';
 
 class LocationScreen extends Component {
   static navigationOptions = {
-    title: 'Localidade',
+    title: 'Local',
     headerStyle: {
       backgroundColor: 'green'
     },

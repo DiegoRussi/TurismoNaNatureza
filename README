@@ -43,8 +43,11 @@ $ npx react-native link
 
 # TODO
 
-use react-native-paper
-
-use another FAB component
+#1 use react-native-paper
 https://callstack.github.io/react-native-paper/
+
+#2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
+
+#3 Location timeout bug 
+https://stackoverflow.com/questions/41129088/react-native-android-location-request-timed-out
