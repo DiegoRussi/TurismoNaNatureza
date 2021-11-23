@@ -49,18 +49,8 @@ $ yarn.cmd add react-native-paper
 $ yarn.cmd add @react-native-picker/picker
 
 #### photos
-X $ yarn.cmd remove rn-viewpager (DEPRECATED)
-
-INITIAL $ yarn.cmd add @react-native-community/viewpager
-
--> https://github.com/DylanVann/react-native-fast-image 2021 <-
-    -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/PriorityExample.tsx
-    -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/SectionFlex.tsx
-    !!! https://spin.atomicobject.com/2018/08/20/objects-not-valid-react-child/
-
-$ yarn.cmd add react-native-fast-image
-
-? https://github.com/intellidev1991/react-native-image-slider-box 2021
+INITIALLY
+$ yarn.cmd add @react-native-community/viewpager
 
 ---
 
@@ -68,6 +58,7 @@ $ yarn.cmd add react-native-fast-image
 
 [X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/
+- [ ] Bug cannot type -> https://github.com/callstack/react-native-paper/issues/978
 
 [ ] #2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
@@ -75,9 +66,23 @@ https://callstack.github.io/react-native-paper/fab.html
 [ ] #3 Location timeout bug 
 https://stackoverflow.com/questions/41129088/react-native-android-location-request-timed-out
 
-[ ] #4 Improve image handling (add zoom feature)
+[ ] #4 Improve image handling in form (add zoom feature)
+- DEPRECATED @react-native-community/viewpager
+-> https://github.com/DylanVann/react-native-fast-image 2021 <-
+-> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/PriorityExample.tsx
+-> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/SectionFlex.tsx
+$ yarn.cmd add react-native-fast-image
+? https://github.com/intellidev1991/react-native-image-slider-box 2021
 
-[ ] #5 
+[ ] #5 Improve navigation
+- mandatory Class usage? then separate w/ folder: src/navigation
+
+[ ] #6 Use cache mechanism to store firebase fetched data
+
+[ ] #7 Improve form w/ submit/validation
+- https://medium.com/@gabrielkabral/criando-formul%C3%A1rios-em-react-native-utilizando-react-hook-form-e-yup-5ff76625f78c
+
+[ ] #?
 
 # DEPLOY
 

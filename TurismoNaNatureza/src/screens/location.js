@@ -1,128 +1,88 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 import { View, Text, Image } from 'react-native';
+
 import { TextInput } from 'react-native-paper';
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
 
-// import Section from '../components/Section'
-// import SectionFlex from '../components/SectionFlex'
 import styles from '../styles/locationStyles'
 
-class LocationScreen extends Component {
-  constructor(props){
-    super(props);
-    this.state = {count: 0};
-    this.coordinates = [-49.00401,-26.90078];
-    this.currentLatitude = 0;
-    this.currentLongitude = 0;
-    this.selectedType = "";
-  }
+export function Location ({ location_id, ...inputProps }) {
+  console.log("Location DEBUG");
+  console.log("location_id = ", location_id);
 
-  static navigationOptions = {
-    title: 'Local',
-    headerStyle: {
-      backgroundColor: 'green'
-    },
-    headerTintColor: '#fff'
-  };
+  const [coordinates] = useState([-49.00401,-26.90078]);
+  const [currentLatitude, setCurrentLatitude] = useState(0);
+  const [currentLongitude, setCurrentLongitude] = useState(0);
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [locationTitle, setLocationTitle] = useState();
+  const [locationDesc, setLocationDesc] = useState();
+  const [locationImages, setLocationImages] = useState([
+      'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
+      'https://static.educalingo.com/img/en/800/nature.jpg',
+      'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
+    ]);
+  const [locationStars, setLocationStars] = useState();
 
-  renderDotIndicator() {
-    return <PagerDotIndicator pageCount={3} />;
-  }
+  return (
+    <View style={styles.container}>
 
-  render() {
-    const location_id = this.props.navigation.getParam('location_id', '0');
-    console.log("location_id = ", location_id);
+      <View style={styles.subContainer}>
+        <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
+        <Text style={styles.title}>Coordenadas</Text>
+        <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
+        <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
+      </View>
 
-    return (
-      <View style={styles.container}>
+      <View style={styles.form}>
+        <Picker
+          selectedValue={selectedLanguage}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }>
+          <Picker.Item label="Paisagem" value="paisagem" />
+          <Picker.Item label="Fauna" value="fauna" />
+          <Picker.Item label="Flora" value="flora" />
+          <Picker.Item label="Cachoeiras" value="cachoeiras" />
+          <Picker.Item label="Riachos" value="riachos" />
+          <Picker.Item label="Montanhas" value="montanhas" />
+          <Picker.Item label="Referência para Trilha" value="trilhas" />
+        </Picker>
 
-        <View style={styles.subContainer}>
-          <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
-          <Text style={styles.title}>Coordenadas</Text>
-          <Text style={styles.subtitle}>Latitude</Text>
-          <Text style={styles.subtitle}>Longitude</Text>
-        </View>
+        <TextInput style={styles.text}
+          label="Título"
+          value={locationTitle ? locationTitle : ""}
+          // onSubmitEditing={(value) => setLocationTitle(value.nativeEvent.text)}
+        />
 
-        <View style={styles.form}>
-          <Picker
-            selectedValue={this.selectedType}
-            onValueChange={(itemValue, itemIndex) =>
-              this.selectedType = itemValue
-            }>
-            <Picker.Item label="Paisagem" value="paisagem" />
-            <Picker.Item label="Fauna" value="fauna" />
-            <Picker.Item label="Flora" value="flora" />
-            <Picker.Item label="Cachoeiras" value="cachoeiras" />
-            <Picker.Item label="Riachos" value="riachos" />
-            <Picker.Item label="Montanhas" value="montanhas" />
-            <Picker.Item label="Referência para Trilha" value="trilhas" />
-          </Picker>
+        <TextInput style={styles.text}
+          label="Descrição"
+          value={locationDesc ? locationDesc : ""}
+          multiline={true}
+          numberOfLines={4}
+        />
 
-          <TextInput style={styles.text}
-            label="Título"
-            value={"Título"}
-          />
+        <ViewPager
+          pageMargin={20}
+          style={{ height: 150 }}>
+          <View>
+            <Image source={{uri: locationImages[0]}} style={{width: 420, height: 170}}/>
+          </View>
+          <View>
+            <Image source={{uri: locationImages[1]}} style={{width: 420, height: 170}}/>
+          </View>
+          <View>
+            <Image source={{uri: locationImages[2]}} style={{width: 420, height: 170}}/>
+          </View>
+        </ViewPager>
 
-          <TextInput style={styles.text}
-            label="Descrição"
-            value={"Descrição"}
-            multiline={true}
-            numberOfLines={4}
-          />
-
-          <ViewPager
-            pageMargin={20}
-            style={{ height: 150 }}>
-            <View>
-              <Image source={{uri: 'https://t.tudocdn.net/404353?w=980&h=340'}} style={{width: 420, height: 170}}/>
-            </View>
-            <View>
-              <Image source={{uri: 'https://t.tudocdn.net/404287?w=980&h=340'}} style={{width: 420, height: 170}}/>
-            </View>
-            <View>
-              <Image source={{uri: 'https://t.tudocdn.net/404001?w=980&h=340'}} style={{width: 420, height: 170}}/>
-            </View>
-          </ViewPager>
-
-          <TextInput style={styles.text}
-            label="Avaliação"
-            value={"Avaliação"}
-          />                            
-        </View>
-
-        <ActionButton buttonColor="rgba(1, 152, 117, 1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="Compartilhar" onPress={() => shareLocation()}>
-            <Icon name="md-share" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Avaliar" onPress={() => starLocation()}>
-            <Icon name="md-star" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Rota" onPress={() => openRouteLocation()}>
-            <Icon name="md-map-outline" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => this.props.navigation.navigate('Map')}>
-            <Icon name="md-return-up-back-sharp" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
+        <TextInput style={styles.text}
+          label="Avaliação"
+          value={locationStars}
+        />
 
       </View>
-    );
-  }
-}
 
-function shareLocation(){
-  console.log("TO BE IMPLEMENTED")
+    </View>
+  );
 }
-
-function starLocation(){
-  console.log("TO BE IMPLEMENTED")
-}
-
-function openRouteLocation(){
-  console.log("TO BE IMPLEMENTED")
-}
-
-export default LocationScreen
