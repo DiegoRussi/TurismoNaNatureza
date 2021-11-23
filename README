@@ -1,5 +1,7 @@
 # Projeto
 
+## Arvore de Arquivos
+
 /src
     /assets
     /components
@@ -8,17 +10,17 @@
 
 ---
 
-# Comandos
+## Comandos
 
 $ npx react-native init TurismoNaNatureza --version 0.64.2
 $ cd TurismoNaNatureza
 
 $ yarn android ($ npx react-native run-android --verbose)
 
-## Mapbox
+### Mapbox
 $ yarn.cmd add @react-native-mapbox-gl/maps@8.2.1
 
-## Navigation
+### Navigation
 $ yarn.cmd add react-navigation
 $ yarn.cmd add react-navigation-stack
 
@@ -29,25 +31,58 @@ $ yarn.cmd add react-native-reanimated
 $ yarn.cmd add react-native-screens
 $ yarn.cmd add react-native-safe-area-context
 
-## Geolocation
+### Geolocation
 
 $ yarn.cmd add @react-native-community/geolocation
 
-## FAB
+### FAB
 
 $ yarn.cmd add react-native-action-button
 $ yarn.cmd add react-native-vector-icons
-$ npx react-native link 
+$ npx react-native link
+
+### Form
+
+$ yarn.cmd add react-native-paper
+
+#### combobox
+$ yarn.cmd add @react-native-picker/picker
+
+#### photos
+X $ yarn.cmd remove rn-viewpager (DEPRECATED)
+
+INITIAL $ yarn.cmd add @react-native-community/viewpager
+
+-> https://github.com/DylanVann/react-native-fast-image 2021 <-
+    -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/PriorityExample.tsx
+    -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/SectionFlex.tsx
+    !!! https://spin.atomicobject.com/2018/08/20/objects-not-valid-react-child/
+
+$ yarn.cmd add react-native-fast-image
+
+? https://github.com/intellidev1991/react-native-image-slider-box 2021
 
 ---
 
 # TODO
 
-#1 use react-native-paper
+[X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/
 
-#2 use another FAB component
+[ ] #2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
 
-#3 Location timeout bug 
+[ ] #3 Location timeout bug 
 https://stackoverflow.com/questions/41129088/react-native-android-location-request-timed-out
+
+[ ] #4 Improve image handling (add zoom feature)
+
+[ ] #5 
+
+# DEPLOY
+
+$ yarn lint
+$ jest
+? generate apk
+
+* https://github.com/welldone-software/why-did-you-render
