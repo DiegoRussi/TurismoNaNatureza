@@ -5,6 +5,8 @@ import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
 
+import { Stars } from '../components/Stars'
+
 import styles from '../styles/locationStyles'
 
 export function Location ({ location_id, ...inputProps }) {
@@ -63,8 +65,8 @@ export function Location ({ location_id, ...inputProps }) {
         />
 
         <ViewPager
-          pageMargin={20}
-          style={{ height: 150 }}>
+          pageMargin={1}
+          style={{ height: 160 }}>
           <View>
             <Image source={{uri: locationImages[0]}} style={{width: 420, height: 170}}/>
           </View>
@@ -76,12 +78,9 @@ export function Location ({ location_id, ...inputProps }) {
           </View>
         </ViewPager>
 
-        <TextInput style={styles.text}
-          label="Avaliação"
-          value={locationStars}
-        />
-
       </View>
+
+      <Stars />
 
     </View>
   );
