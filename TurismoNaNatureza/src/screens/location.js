@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Button } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
@@ -80,8 +80,21 @@ export function Location ({ location_id, ...inputProps }) {
 
       </View>
 
-      <Stars />
+      <View style={styles.star}>
+        <Stars />
+      </View>
+
+      <View style={styles.button}>
+          <Button
+            title='Salvar'
+            onPress={() => newLocation()}
+          />
+      </View>
 
     </View>
   );
+}
+
+function newLocation(){
+  console.log("TO BE IMPLEMENTED");
 }

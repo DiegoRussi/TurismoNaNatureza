@@ -58,7 +58,7 @@ $ yarn.cmd add @react-native-community/viewpager
 
 [X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/
-- [ ] Bug cannot type -> https://github.com/callstack/react-native-paper/issues/978
+- [ ] Bug cannot type because of 'value' prop
 
 [ ] #2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
@@ -81,6 +81,8 @@ $ yarn.cmd add react-native-fast-image
 
 [ ] #7 Improve form w/ submit/validation
 - https://medium.com/@gabrielkabral/criando-formul%C3%A1rios-em-react-native-utilizando-react-hook-form-e-yup-5ff76625f78c
+
+[ ] #8 Improve star rating with react-native-star-review or react-native-star-view
 
 [ ] #?
 

@@ -30,6 +30,12 @@ const locationStyles = StyleSheet.create({
         color: 'green',
         textAlign: 'center',
         fontSize: 13,
+    },
+    star: {
+        margin: 20
+    },
+    button: {
+        margin: 20
     }
 });
 
