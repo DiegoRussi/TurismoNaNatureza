@@ -84,6 +84,8 @@ $ yarn.cmd add react-native-fast-image
 
 [ ] #8 Improve star rating with react-native-star-review or react-native-star-view
 
+[ ] #9 Add support to Label/Text locales EN/PT-BR
+
 [ ] #?
 
 # DEPLOY

@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Image, Text, Button } from 'react-native';
 
 import styles from '../styles/homeStyles'
 
-class HomeScreen extends Component {
-  static navigationOptions = {
-    title: 'Turismo Na Natureza',
-    headerStyle: {
-      backgroundColor: 'green'
-    },
-    headerTintColor: '#fff'
-  };
+export function Home () {
+  console.log("Home DEBUG");
 
-  render() {
-    return (
-      <View style={styles.container}>
+  // const [state, setState] = useState(0);
 
+  return (
+    <View style={styles.container}>
         <View style={styles.subContainer}>
           <Image style={styles.logo} source={{uri: 'https://icon-library.com/images/tourism-icon/tourism-icon-10.jpg'}} />
           <Text style={styles.title}>Turismo Na Natureza</Text>
@@ -32,22 +26,6 @@ class HomeScreen extends Component {
             </Text>
         </View>
 
-        <View style={styles.button}>
-          <Button
-            title='Entrar'
-            onPress={() => this.props.navigation.navigate('Map', {device_uid: 123456789, login: 987654321})}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title='TESTE'
-            onPress={() => this.props.navigation.navigate('Location', {device_uid: 123456789, login: 987654321, location_id: 8080})}
-          />
-        </View>
-
-      </View>
-    );
-  }
+    </View>
+  );
 }
-
-export default HomeScreen;
