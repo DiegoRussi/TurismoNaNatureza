@@ -107,24 +107,35 @@ const Map = () => {
     );
   }
   const renderLocationAnnotations = (locations) => {
-    const locationsItems = locations.map((location) =>
+    const locationsItems = locations.map((location, index) =>
       <MapboxGL.PointAnnotation
-        key="locationPointAnnotation"
-        id="locationPointAnnotation"
-        coordinate={ location }>
+        key={`location${index}`}
+        id={`location${index}`}
+        title={index}
+        coordinate={ location }
+        onSelected={() => selectLocation(index, location)}
+        >
       </MapboxGL.PointAnnotation>
     );
     return ( locationsItems );
   }
-  
+
   const locations = [
-    [-49.00401,-26.90079],
-    [-49.00502,-26.90180],
+    [-49.00401,-26.90079], // IFSC
+    [-49.00478,-26.90564], // MIRANTE
+    [-49.00502,-26.90180], // TESTS
     [-49.00603,-26.90281],
     [-49.00704,-26.90382]
   ];
   //TODO: helpers.getLocationCoords();
 
+  const selectLocation = (title, location) =>{
+    console.log("selectLocation TO BE IMPLEMENTED")
+    console.log("title = ", title)
+    console.log("location = ", location)
+    alert("title = " + title + "\nlocation = " + location)
+    // TODO: openLocation()
+  }
   const addLocation = () => {
     console.log("addLocation TO BE IMPLEMENTED")
     // TODO: Make navigation work from here
@@ -158,6 +169,8 @@ const Map = () => {
 
           {renderUserAnnotation(currentLongitude, currentLatitude)}
 
+          {renderMarkers()}
+
         </MapboxGL.MapView>
 
         <ActionButton buttonColor="rgba(1, 152, 117, 1)">
@@ -176,6 +189,32 @@ const Map = () => {
 }
 
 const stylesFAB = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
+});
+
+const stylesMarker = StyleSheet.create({
+  markerContainer: {
+    alignItems: "center",
+    width: 60,
+    backgroundColor: "transparent",
+    height: 70,
+  },
+  textContainer: {
+    backgroundColor: "green",
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    textAlign: "center",
+    paddingHorizontal: 5,
+    flex: 1,
+  },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
