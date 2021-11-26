@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Image, Text, Button } from 'react-native';
+import { View, Image, Text } from 'react-native';
 
 import styles from '../styles/homeStyles'
 
-export function Home () {
+const Home = () => {
   console.log("Home DEBUG");
 
   // const [state, setState] = useState(0);
@@ -29,3 +29,5 @@ export function Home () {
     </View>
   );
 }
+
+export default Home;

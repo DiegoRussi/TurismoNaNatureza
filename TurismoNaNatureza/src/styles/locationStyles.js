@@ -35,7 +35,7 @@ const locationStyles = StyleSheet.create({
         margin: 20
     },
     button: {
-        margin: 20
+        margin: 10
     }
 });
 

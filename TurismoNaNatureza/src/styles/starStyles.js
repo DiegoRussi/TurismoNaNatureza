@@ -9,9 +9,8 @@ const starStyles = StyleSheet.create({
   },
   textStyle: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 15,
     color: '#000',
-    marginTop: -20,
   },
   ratingStarsStyle: {
     justifyContent: 'center',

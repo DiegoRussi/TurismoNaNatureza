@@ -1,30 +1,80 @@
 import React, { useState } from "react";
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
 
-import { Stars } from '../components/Stars'
-
 import styles from '../styles/locationStyles'
+import starStyles from '../styles/starStyles'
 
-export function Location ({ location_id, ...inputProps }) {
+// import getLocationInfo from '../functions/LocationHelper.js'
+
+const Location = ({ is_add, location_id, lat, long, ...inputProps }) => {
   console.log("Location DEBUG");
   console.log("location_id = ", location_id);
 
-  const [coordinates] = useState([-49.00401,-26.90078]);
-  const [currentLatitude, setCurrentLatitude] = useState(0);
-  const [currentLongitude, setCurrentLongitude] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState();
-  const [locationTitle, setLocationTitle] = useState();
-  const [locationDesc, setLocationDesc] = useState();
-  const [locationImages, setLocationImages] = useState([
-      'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
-      'https://static.educalingo.com/img/en/800/nature.jpg',
-      'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
-    ]);
-  const [locationStars, setLocationStars] = useState();
+  const latitude = lat;
+  const longitude = long;
+  const type = "";
+  const title = "";
+  const desc = "";
+  const images =  [ //[ "../assets/empty.jpg" ];
+    'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
+    'https://static.educalingo.com/img/en/800/nature.jpg',
+    'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
+  ];
+  const rate = 4;
+
+  // if (!is_add){
+  //   const [
+  //     latitude, longitude, type, title, desc, images, rate
+  //   ] = getLocationInfo(location_id);
+  // }
+
+  const [currentLatitude, setCurrentLatitude] = useState(latitude);
+  const [currentLongitude, setCurrentLongitude] = useState(longitude);
+  const [locationType, setLocationType] = useState(type);
+  const [locationTitle, setLocationTitle] = useState(title);
+  const [locationDesc, setLocationDesc] = useState(desc);
+  const [locationImages, setLocationImages] = useState(images);
+  const [starRate, setStarRate] = useState(rate); 
+  const [starRatings, setstarRatings] = useState([1, 2, 3, 4, 5]); 
+
+  const RatingStars = () => { 
+    return ( 
+      <View style={starStyles.ratingStarsStyle}> 
+        {starRatings.map((item, key) => { 
+          return ( 
+            <TouchableOpacity 
+              activeOpacity={0.7} 
+              key={item} 
+              onPress={() => setStarRate(item)}> 
+              <Image 
+                style={starStyles.starImageStyle} 
+                source={ 
+                  item <= starRate 
+                    ? require('../assets/star-full.png') 
+                    : require('../assets/star-empty.png') 
+                } 
+              /> 
+            </TouchableOpacity> 
+          ); 
+        })} 
+      </View> 
+    ); 
+  };
+
+  const newLocation = () => {
+    console.log("newLocation TO BE IMPLEMENTED");
+    console.log("currentLatitude = ", currentLatitude);
+    console.log("currentLongitude = ", currentLongitude);
+    console.log("locationType = ", locationType);
+    console.log("locationTitle = ", locationTitle);
+    console.log("locationDesc = ", locationDesc);
+    console.log("locationImages = ", locationImages);
+    console.log("starRate = ", starRate);
+  }
 
   return (
     <View style={styles.container}>
@@ -38,10 +88,13 @@ export function Location ({ location_id, ...inputProps }) {
 
       <View style={styles.form}>
         <Picker
-          selectedValue={selectedLanguage}
+          prompt={'Tipo de Local'}
+          selectedValue={locationType}
           onValueChange={(itemValue, itemIndex) =>
-            setSelectedLanguage(itemValue)
-          }>
+            setLocationType(itemValue)
+          } 
+          >
+          <Picker.Item label="Selecione o Tipo de Local" value="0" />
           <Picker.Item label="Paisagem" value="paisagem" />
           <Picker.Item label="Fauna" value="fauna" />
           <Picker.Item label="Flora" value="flora" />
@@ -52,18 +105,24 @@ export function Location ({ location_id, ...inputProps }) {
         </Picker>
 
         <TextInput style={styles.text}
+          mode="outlined"
           label="Título"
-          value={locationTitle ? locationTitle : ""}
-          // onSubmitEditing={(value) => setLocationTitle(value.nativeEvent.text)}
+          placeholder="Insira um Título"
+          value={locationTitle}
+          onChangeText={locationTitle => setLocationTitle(locationTitle)}
         />
 
         <TextInput style={styles.text}
+          mode="outlined"
           label="Descrição"
-          value={locationDesc ? locationDesc : ""}
+          placeholder="Insira uma Descrição"
+          value={locationDesc}
+          onChangeText={locationDesc => setLocationDesc(locationDesc)}
           multiline={true}
           numberOfLines={4}
         />
 
+        <Text style={starStyles.textStyle}>Imagens</Text>
         <ViewPager
           pageMargin={1}
           style={{ height: 160 }}>
@@ -80,9 +139,14 @@ export function Location ({ location_id, ...inputProps }) {
 
       </View>
 
-      <View style={styles.star}>
-        <Stars />
-      </View>
+      <SafeAreaView style={starStyles.container}> 
+        <View style={starStyles.container}> 
+          <Text style={starStyles.textStyle}> 
+            Avaliação: {starRate} / {Math.max.apply(null, starRatings)} 
+          </Text>
+          {RatingStars()}
+        </View> 
+      </SafeAreaView> 
 
       <View style={styles.button}>
           <Button
@@ -95,6 +159,4 @@ export function Location ({ location_id, ...inputProps }) {
   );
 }
 
-function newLocation(){
-  console.log("TO BE IMPLEMENTED");
-}
+export default Location;

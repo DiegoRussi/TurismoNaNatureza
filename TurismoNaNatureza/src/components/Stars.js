@@ -41,7 +41,7 @@ export function Stars() {
     <SafeAreaView style={styles.container}> 
       <View style={styles.container}> 
         <Text style={styles.textStyle}> 
-          {defaultRating} / {Math.max.apply(null, maxRating)} 
+          Avaliação: {defaultRating} / {Math.max.apply(null, maxRating)} 
         </Text>
         <RatingStars /> 
       </View> 

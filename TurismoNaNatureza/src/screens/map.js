@@ -16,7 +16,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from '../styles/mapStyles'
 
-// export function Map(){
 const Map = () => {
   console.log("RENDERIZOU Map");
 
@@ -108,8 +107,7 @@ const Map = () => {
   }
 
   const addLocation = () => {
-    console.log("clicou em add")
-    console.log("TO BE IMPLEMENTED")
+    console.log("addLocation TO BE IMPLEMENTED")
   }
 
   // TODO: Improve this hook; called once
@@ -147,9 +145,6 @@ const Map = () => {
             <Icon name="md-location-sharp" style={stylesFAB.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#3498db' title="Localizar" onPress={() => callLocation()}>
-            <Icon name="md-locate" style={stylesFAB.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="TESTE" onPress={() => this.props.navigation.navigate('Location')}>
             <Icon name="md-locate" style={stylesFAB.actionButtonIcon} />
           </ActionButton.Item>
         </ActionButton>

@@ -62,6 +62,7 @@ https://callstack.github.io/react-native-paper/
 
 [ ] #2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
+- make fab color match navigation - green
 
 [ ] #3 Location timeout bug 
 https://stackoverflow.com/questions/41129088/react-native-android-location-request-timed-out
@@ -81,6 +82,9 @@ $ yarn.cmd add react-native-fast-image
 
 [ ] #7 Improve form w/ submit/validation
 - https://medium.com/@gabrielkabral/criando-formul%C3%A1rios-em-react-native-utilizando-react-hook-form-e-yup-5ff76625f78c
+- https://www.notion.so/Criando-formul-rios-em-React-Native-utilizando-React-Hook-Form-e-Yup-cde6757402fb4c9f9d30833a86b25f12
+- scrollview, flatlist, sectionview
+- https://reactnative.dev/docs/flexbox
 
 [ ] #8 Improve star rating with react-native-star-review or react-native-star-view
 

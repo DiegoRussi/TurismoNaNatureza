@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, Button } from 'react-native';
 
-import { Home } from '../screens/Home'
+import Home from '../screens/Home'
 import styles from '../styles/homeStyles'
 
 class HomeScreen extends Component {
