@@ -23,7 +23,12 @@ class LocationScreen extends Component {
     return (
       <View style={styles.container}>
 
-        <Location location_id={location_id} />
+        <Location 
+          is_add={true}
+          location_id={location_id} 
+          lat={9}
+          long={8}
+          />
 
         <ActionButton buttonColor="rgba(1, 152, 117, 1)">
           <ActionButton.Item buttonColor='#9b59b6' title="Compartilhar" onPress={() => shareLocation()}>

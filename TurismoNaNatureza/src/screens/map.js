@@ -14,6 +14,7 @@ import Geolocation from '@react-native-community/geolocation';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import NavigationService from '../helpers/NavigationService.js';
 import styles from '../styles/mapStyles'
 
 const Map = () => {
@@ -105,15 +106,36 @@ const Map = () => {
       </MapboxGL.PointAnnotation>
     );
   }
+  const renderLocationAnnotations = (locations) => {
+    const locationsItems = locations.map((location) =>
+      <MapboxGL.PointAnnotation
+        key="locationPointAnnotation"
+        id="locationPointAnnotation"
+        coordinate={ location }>
+      </MapboxGL.PointAnnotation>
+    );
+    return ( locationsItems );
+  }
+  
+  const locations = [
+    [-49.00401,-26.90079],
+    [-49.00502,-26.90180],
+    [-49.00603,-26.90281],
+    [-49.00704,-26.90382]
+  ];
+  //TODO: helpers.getLocationCoords();
 
   const addLocation = () => {
     console.log("addLocation TO BE IMPLEMENTED")
+    // TODO: Make navigation work from here
+    NavigationService.navigate('Location', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
+    // 'Location', {device_uid: 123456789, login: 987654321, location_id: 8080}
   }
 
   // TODO: Improve this hook; called once
-  useEffect(() => { 
-    callLocation(); 
-  }, []);
+  // useEffect(() => { 
+  //   callLocation(); 
+  // }, []);
 
   return (
     <View style={styles.page}>
@@ -132,12 +154,10 @@ const Map = () => {
           >
           </MapboxGL.Camera>
 
-          <MapboxGL.PointAnnotation
-            key="locationPointAnnotation"
-            id="locationPointAnnotation"
-            coordinate={coordinates}
-          />
+          {renderLocationAnnotations(locations)}
+
           {renderUserAnnotation(currentLongitude, currentLatitude)}
+
         </MapboxGL.MapView>
 
         <ActionButton buttonColor="rgba(1, 152, 117, 1)">
