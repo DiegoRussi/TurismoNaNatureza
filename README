@@ -61,11 +61,15 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 
 ---
 
+# Possible Bugs
+https://github.com/nitaliano/react-native-mapbox-gl/issues/937
+
+---
+
 # TODO
 
 [X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/
-- [ ] Bug cannot type because of 'value' prop
 
 [ ] #2 use another FAB component
 https://callstack.github.io/react-native-paper/fab.html
