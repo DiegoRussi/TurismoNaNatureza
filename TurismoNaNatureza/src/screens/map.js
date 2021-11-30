@@ -5,7 +5,8 @@ import {
   Text,
   Platform,
   PermissionsAndroid,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from "react-native";
 
 import MapboxGL from "@react-native-mapbox-gl/maps";
@@ -66,8 +67,9 @@ const Map = () => {
         setCurrentLongitude(currentLongitude);
       },
       (error) => {
-        alert(error.message)
+        alert("Erro: localização do dispositivo não pode ser encontrado, por favor certifique-se de habilitar a localização do dispositivo.")
         console.log('getCurrentPosition.error', error);
+        console.log('getCurrentPosition.error.message', error.message);
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
@@ -89,6 +91,7 @@ const Map = () => {
       </MapboxGL.MarkerView>
     )
   }
+
   const renderUserAnnotation = () => {
     return (
       <MapboxGL.PointAnnotation
@@ -106,6 +109,7 @@ const Map = () => {
       </MapboxGL.PointAnnotation>
     );
   }
+
   const renderLocationAnnotations = (locations) => {
     const locationsItems = locations.map((location, index) =>
       <MapboxGL.PointAnnotation
@@ -133,14 +137,28 @@ const Map = () => {
     console.log("selectLocation TO BE IMPLEMENTED")
     console.log("title = ", title)
     console.log("location = ", location)
-    alert("title = " + title + "\nlocation = " + location)
-    // TODO: openLocation()
+    Alert.alert(
+      "Local XXX",
+      "title = " + title + "\nlocation = " + location,
+      [
+        {
+          text: "Voltar",
+          style: "cancel"
+        },
+        { text: "Visualizar", onPress: () => openLocation() }
+      ]
+    );
+    // openLocation()
   }
+
+  const openLocation = () => {
+    console.log("openLocation TO BE IMPLEMENTED")
+    NavigationService.navigate('Location', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
+  }
+
   const addLocation = () => {
     console.log("addLocation TO BE IMPLEMENTED")
-    // TODO: Make navigation work from here
-    NavigationService.navigate('Location', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
-    // 'Location', {device_uid: 123456789, login: 987654321, location_id: 8080}
+    NavigationService.navigate('AddLocation', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
   }
 
   // TODO: Improve this hook; called once

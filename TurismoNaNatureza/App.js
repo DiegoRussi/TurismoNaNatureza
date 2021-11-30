@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import {HomeScreen, MapScreen, LocationScreen} from './src/screens/index';
+import { HomeScreen, MapScreen, LocationScreen, AddLocationScreen } from './src/screens/index';
+
+import NavigationService from './src/helpers/NavigationService';
 
 const AppNavigator = createStackNavigator(
   {
@@ -14,6 +16,9 @@ const AppNavigator = createStackNavigator(
     },
     Location: {
       screen: LocationScreen
+    },
+    AddLocation: {
+      screen: AddLocationScreen
     }
   },
   {
@@ -21,10 +26,16 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
+const TopLevelNavigator = createAppContainer(AppNavigator);
 
 export default class App extends Component {
   render() {
-    return <AppContainer />;
+    return (
+      <TopLevelNavigator
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    );
   }
 }

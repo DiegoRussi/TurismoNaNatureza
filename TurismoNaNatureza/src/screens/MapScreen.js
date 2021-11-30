@@ -36,7 +36,7 @@ class MapScreen extends Component {
       <View style={styles.page}>
         <View style={styles.container}>
 
-          <Map location_id={location_id}/>
+          <Map />
 
         </View>
       </View>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import Location from '../screens/Location'
+import AddLocation from '../screens/AddLocation'
 import styles from '../styles/locationStyles'
 
-class LocationScreen extends Component {
+class AddLocationScreen extends Component {
   static navigationOptions = {
     title: 'Local',
     headerStyle: {
@@ -24,7 +24,7 @@ class LocationScreen extends Component {
     return (
       <View style={styles.container}>
 
-        <Location 
+        <AddLocation 
           is_add={true}
           location_id={location_id} 
           lat={currentLatitude}
@@ -36,4 +36,4 @@ class LocationScreen extends Component {
   }
 }
 
-export default LocationScreen
+export default AddLocationScreen
