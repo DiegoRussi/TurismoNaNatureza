@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, Image, Button, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  SafeAreaView,
+  TouchableOpacity,
+  Linking,
+  StyleSheet
+} from 'react-native';
 
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -81,6 +90,22 @@ const Location = ({ location_id, l_title, location}) => {
     console.log("locationDesc = ", locationDesc);
     console.log("locationImages = ", locationImages);
     console.log("starRate = ", starRate);
+  }
+
+  function shareLocation(){
+    console.log("TO BE IMPLEMENTED")
+  }
+  
+  function starLocation(){
+    console.log("TO BE IMPLEMENTED")
+  }
+  
+  const openRouteLocation = () => {
+    console.log("openRouteLocation")
+    Linking.openURL(
+      // `http://www.google.com/maps/place/${currentLatitude},${currentLongitude}`
+      `https://maps.google.com/?q=${currentLatitude},${currentLongitude}`
+    );
   }
 
   return (
@@ -169,7 +194,7 @@ const Location = ({ location_id, l_title, location}) => {
           <ActionButton.Item buttonColor='#3498db' title="Avaliar" onPress={() => starLocation()}>
             <Icon name="md-star" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Rota" onPress={() => openRouteLocation()}>
+          <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openRouteLocation()}>
             <Icon name="md-map-outline" style={styles.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => this.props.navigation.navigate('Map')}>
@@ -188,17 +213,5 @@ const stylesFAB = StyleSheet.create({
     color: 'white',
   },
 });
-
-function shareLocation(){
-  console.log("TO BE IMPLEMENTED")
-}
-
-function starLocation(){
-  console.log("TO BE IMPLEMENTED")
-}
-
-function openRouteLocation(){
-  console.log("TO BE IMPLEMENTED")
-}
 
 export default Location;
