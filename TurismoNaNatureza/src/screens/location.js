@@ -13,14 +13,18 @@ import starStyles from '../styles/starStyles'
 
 // import getLocationInfo from '../functions/LocationHelper.js'
 
-const Location = ({ is_add, location_id, lat, long, ...inputProps }) => {
+const Location = ({ location_id, l_title, location}) => {
   console.log("Location DEBUG");
   console.log("location_id = ", location_id);
+  console.log("l_title = ", l_title);
+  console.log("location = ", location);
 
-  const latitude = lat;
-  const longitude = long;
+  const longitude = location[0];
+  const latitude = location[1];
+  console.log("longitude = ", longitude);
+  console.log("latitude = ", latitude);
   const type = "";
-  const title = "";
+  const title = l_title;
   const desc = "";
   const images =  [ //[ "../assets/empty.jpg" ];
     'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
@@ -35,8 +39,8 @@ const Location = ({ is_add, location_id, lat, long, ...inputProps }) => {
   //   ] = getLocationInfo(location_id);
   // }
 
-  const [currentLatitude, setCurrentLatitude] = useState(latitude);
   const [currentLongitude, setCurrentLongitude] = useState(longitude);
+  const [currentLatitude, setCurrentLatitude] = useState(latitude);
   const [locationType, setLocationType] = useState(type);
   const [locationTitle, setLocationTitle] = useState(title);
   const [locationDesc, setLocationDesc] = useState(desc);

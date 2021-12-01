@@ -111,13 +111,14 @@ const Map = () => {
   }
 
   const renderLocationAnnotations = (locations) => {
+    let location_id = "TODO"
     const locationsItems = locations.map((location, index) =>
       <MapboxGL.PointAnnotation
         key={`location${index}`}
         id={`location${index}`}
         title={index}
         coordinate={ location }
-        onSelected={() => selectLocation(index, location)}
+        onSelected={() => selectLocation(`location${index}`, location, location_id)}
         >
       </MapboxGL.PointAnnotation>
     );
@@ -133,32 +134,61 @@ const Map = () => {
   ];
   //TODO: helpers.getLocationCoords();
 
-  const selectLocation = (title, location) =>{
-    console.log("selectLocation TO BE IMPLEMENTED")
+  const selectLocation = (title, location, location_id) =>{
+    console.log("selectLocation")
     console.log("title = ", title)
     console.log("location = ", location)
+    showAlertLocation(title, location, location_id)
+  }
+
+  const openLocation = (title, location, location_id) => {
+    console.log("openLocation")
+    console.log("title = ", title)
+    console.log("location = ", location)
+    console.log("location_id = ", location_id)
+    NavigationService.navigate('Location', {title: title, location_id: location_id, location: location})
+  }
+
+  const addLocation = () => {
+    console.log("addLocation")
+    if (
+        currentLatitude != 0 || 
+        currentLatitude != "" ||
+        currentLongitude != 0 ||
+        currentLongitude != ""
+      ){
+      NavigationService.navigate('AddLocation', {currentLongitude: currentLongitude, currentLatitude: currentLatitude})
+    } else {
+      showAlertAddError()
+    }
+  }
+
+  const showAlertLocation = (title, location, location_id) => {
     Alert.alert(
-      "Local XXX",
+      "Visualizar Local",
       "title = " + title + "\nlocation = " + location,
       [
         {
           text: "Voltar",
           style: "cancel"
         },
-        { text: "Visualizar", onPress: () => openLocation() }
+        { text: "Visualizar", onPress: () => openLocation(title, location, location_id) }
       ]
     );
-    // openLocation()
   }
 
-  const openLocation = () => {
-    console.log("openLocation TO BE IMPLEMENTED")
-    NavigationService.navigate('Location', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
-  }
-
-  const addLocation = () => {
-    console.log("addLocation TO BE IMPLEMENTED")
-    NavigationService.navigate('AddLocation', {currentLongitude: currentLongitude, currentLatitude: currentLatitude});
+  const showAlertAddError = () => {
+    Alert.alert(
+      "Adicionar Local - Localização",
+      "Para criar um novo local, se dirija ao local e ative a Localização do seu dispositivo\nDeseja Localizar agora?",
+      [
+        {
+          text: "Voltar",
+          style: "cancel"
+        },
+        { text: "Localizar", onPress: () => callLocation() }
+      ]
+    );
   }
 
   // TODO: Improve this hook; called once
