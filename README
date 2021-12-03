@@ -62,7 +62,9 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 ---
 
 # Possible Bugs
-https://github.com/nitaliano/react-native-mapbox-gl/issues/937
+
+1. https://github.com/nitaliano/react-native-mapbox-gl/issues/937
+2. currentLongitude and currentLatitude bug into AddLocation
 
 ---
 
