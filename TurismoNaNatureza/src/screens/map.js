@@ -73,7 +73,7 @@ const Map = () => {
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 3600000 }
     );
   }
 
@@ -164,9 +164,10 @@ const Map = () => {
   }
 
   const showAlertLocation = (title, location, location_id) => {
+    let type = "TODO"
     Alert.alert(
       "Visualizar Local",
-      "title = " + title + "\nlocation = " + location,
+      "Titulo: = " + title + "\nTipo = " + type + "\nlocation = " + location,
       [
         {
           text: "Voltar",
@@ -192,9 +193,9 @@ const Map = () => {
   }
 
   // TODO: Improve this hook; called once
-  // useEffect(() => { 
-  //   callLocation(); 
-  // }, []);
+  useEffect(() => {
+    callLocation();
+  }, []);
 
   return (
     <View style={styles.page}>

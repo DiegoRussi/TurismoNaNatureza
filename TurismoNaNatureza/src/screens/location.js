@@ -100,8 +100,8 @@ const Location = ({ location_id, l_title, location}) => {
     console.log("TO BE IMPLEMENTED")
   }
   
-  const openRouteLocation = () => {
-    console.log("openRouteLocation")
+  const openLocationRoute = () => {
+    console.log("openLocationRoute")
     Linking.openURL(
       // `http://www.google.com/maps/place/${currentLatitude},${currentLongitude}`
       `https://maps.google.com/?q=${currentLatitude},${currentLongitude}`
@@ -194,7 +194,7 @@ const Location = ({ location_id, l_title, location}) => {
           <ActionButton.Item buttonColor='#3498db' title="Avaliar" onPress={() => starLocation()}>
             <Icon name="md-star" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openRouteLocation()}>
+          <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openLocationRoute()}>
             <Icon name="md-map-outline" style={styles.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => this.props.navigation.navigate('Map')}>

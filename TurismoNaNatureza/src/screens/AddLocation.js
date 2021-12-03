@@ -11,7 +11,7 @@ import ViewPager from '@react-native-community/viewpager';
 import styles from '../styles/locationStyles'
 import starStyles from '../styles/starStyles'
 
-// import getLocationInfo from '../functions/LocationHelper.js'
+// import getLocationInfo from '../functions/database.js'
 
 const Location = ({ is_add, location_id, lat, long, ...inputProps }) => {
   console.log("Location DEBUG");
