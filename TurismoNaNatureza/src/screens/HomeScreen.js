@@ -28,7 +28,8 @@ class HomeScreen extends Component {
         <View style={styles.button}>
           <Button
             title='TESTE'
-            onPress={() => this.props.navigation.navigate('Location', {device_uid: 123456789, login: 987654321, location_id: 8080})}
+            // onPress={() => this.props.navigation.navigate('Location', {device_uid: 123456789, login: 987654321, location_id: 8080})}
+            onPress={() => this.props.navigation.navigate('ImageScreen')}
           />
         </View>
 

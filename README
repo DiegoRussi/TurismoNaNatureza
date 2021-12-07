@@ -52,6 +52,12 @@ $ yarn.cmd add @react-native-picker/picker
 INITIALLY
 $ yarn.cmd add @react-native-community/viewpager
 
+#### image picker + firebase
+$ yarn.cmd add react-native-image-picker
+
+$ yarn.cmd add @react-native-firebase/app
+$ yarn.cmd add @react-native-firebase/storage
+
 ---
 
 ## Utils
@@ -65,6 +71,7 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 
 1. https://github.com/nitaliano/react-native-mapbox-gl/issues/937
 2. currentLongitude and currentLatitude bug into AddLocation
+3. Location Form re-rendering ALL after any change
 
 ---
 
