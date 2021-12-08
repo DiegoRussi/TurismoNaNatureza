@@ -36,7 +36,7 @@ const Location = ({ location_id, l_title, location}) => {
   const type = "";
   const title = l_title;
   const desc = "";
-  const images =  [ //[ "../assets/empty.jpg" ];
+  const images =  [
     'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
     'https://static.educalingo.com/img/en/800/nature.jpg',
     'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'

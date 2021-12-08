@@ -77,21 +77,6 @@ const Map = () => {
     );
   }
 
-  const renderMarkers = () => {
-    const [placeCoordinates] = useState([-49.00478,-26.90564]);
-    return (
-      <MapboxGL.MarkerView id={"marker"} coordinate={placeCoordinates}>
-      <View>
-        <View style={stylesMarker.markerContainer}>
-          <View style={stylesMarker.textContainer}>
-            <Text style={stylesMarker.text}>{"Mirante"}</Text>
-          </View>
-        </View>
-      </View>
-      </MapboxGL.MarkerView>
-    )
-  }
-
   const renderUserAnnotation = () => {
     return (
       <MapboxGL.PointAnnotation
@@ -218,8 +203,6 @@ const Map = () => {
 
           {renderUserAnnotation(currentLongitude, currentLatitude)}
 
-          {renderMarkers()}
-
         </MapboxGL.MapView>
 
         <ActionButton buttonColor="rgba(1, 152, 117, 1)">
@@ -238,32 +221,6 @@ const Map = () => {
 }
 
 const stylesFAB = StyleSheet.create({
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: 'white',
-  },
-});
-
-const stylesMarker = StyleSheet.create({
-  markerContainer: {
-    alignItems: "center",
-    width: 60,
-    backgroundColor: "transparent",
-    height: 70,
-  },
-  textContainer: {
-    backgroundColor: "green",
-    borderRadius: 10,
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
-    paddingHorizontal: 5,
-    flex: 1,
-  },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
