@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import {
   View,
-  Text,
   Platform,
   PermissionsAndroid,
   StyleSheet,
@@ -192,10 +191,10 @@ const Map = () => {
           centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
           showUserLocation={true}>
           <MapboxGL.Camera
-            zoomLevel={14}
+            zoomLevel={8}
             centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
             animationMode={'flyTo'}
-            animationDuration={10}
+            animationDuration={4200}
           >
           </MapboxGL.Camera>
 
