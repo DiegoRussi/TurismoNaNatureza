@@ -36,6 +36,11 @@ const locationStyles = StyleSheet.create({
     },
     button: {
         margin: 10
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
     }
 });
 

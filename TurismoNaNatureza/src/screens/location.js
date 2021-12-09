@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import {
   View,
-  FlatList,
+  ScrollView,
   Text,
   Image,
-  Button,
   SafeAreaView,
   TouchableOpacity,
-  Linking,
-  StyleSheet
+  Linking
 } from 'react-native';
+
+import NavigationService from '../helpers/NavigationService.js';
 
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -109,129 +109,75 @@ const Location = ({ location_id, l_title, location}) => {
     );
   }
 
-  
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    }
-  ];
-
-  const Header = () => (
-    <View style={styles.subContainer}>
-      <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
-      <Text style={styles.title}>Coordenadas</Text>
-      <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
-      <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
-    </View>
-  );
-
-  const Type = () => (
-    <Picker
-      prompt={'Tipo de Local'}
-      selectedValue={locationType}
-      onValueChange={(itemValue, itemIndex) =>
-        setLocationType(itemValue)
-      } 
-      >
-      <Picker.Item label="Selecione o Tipo de Local" value="0" />
-      <Picker.Item label="Paisagem" value="paisagem" />
-      <Picker.Item label="Fauna" value="fauna" />
-      <Picker.Item label="Flora" value="flora" />
-      <Picker.Item label="Cachoeiras" value="cachoeiras" />
-      <Picker.Item label="Riachos" value="riachos" />
-      <Picker.Item label="Montanhas" value="montanhas" />
-      <Picker.Item label="Referência para Trilha" value="trilhas" />
-    </Picker>
-  );
-
-  const Title = () => (
-    <View style={styles.form}>
-      <TextInput style={styles.text}
-        mode="outlined"
-        label="Título"
-        placeholder="Insira um Título"
-        value={locationTitle}
-        onChangeText={locationTitle => setLocationTitle(locationTitle)}
-      />
-    </View>
-  );
-
-  const Description = () => (
-    <TextInput style={styles.text}
-      mode="outlined"
-      label="Descrição"
-      placeholder="Insira uma Descrição"
-      value={locationDesc}
-      onChangeText={locationDesc => setLocationDesc(locationDesc)}
-      multiline={true}
-      numberOfLines={4}
-    />
-  );
-
-  const Images = () => (
-    <View>
-      <Text style={starStyles.textStyle}>Imagens</Text>
-      <ViewPager
-        pageMargin={1}
-        style={{ height: 250 }}>
-        <View>
-          <Image source={{uri: locationImages[0]}} style={{width: 420, height: 250}}/>
-        </View>
-        <View>
-          <Image source={{uri: locationImages[1]}} style={{width: 420, height: 250}}/>
-        </View>
-        <View>
-          <Image source={{uri: locationImages[2]}} style={{width: 420, height: 250}}/>
-        </View>
-      </ViewPager>
-    </View>
-  );
-
-  const Stars = () => (
-    <SafeAreaView style={starStyles.container}> 
-      <View style={starStyles.container}>
-        <Text style={starStyles.textStyle}>
-          Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
-        </Text>
-        {RatingStars()}
-      </View>
-    </SafeAreaView>
-  );
-
-
-  const SaveButton = () => (
-    <View style={styles.button}>
-      <Button
-        title='Salvar'
-        onPress={() => newLocation()}
-      />
-    </View>
-  );
-
-  const renderItem = ({ item }) => (
-    <View>
-      <View style={styles.subContainer}>
-        <Header />
-      </View>
-      <View style={styles.form}>
-        <Type />
-        <Title />
-        <Description />
-        <Images />
-        <Stars />
-        <SaveButton />
-      </View>
-    </View>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <ScrollView>
+        <View style={styles.subContainer}>
+          <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
+          <Text style={styles.title}>Coordenadas</Text>
+          <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
+          <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
+        </View>
+        <Picker
+          prompt={'Tipo de Local'}
+          selectedValue={locationType}
+          onValueChange={(itemValue, itemIndex) =>
+            setLocationType(itemValue)
+          }
+          >
+          <Picker.Item label="Selecione o Tipo de Local" value="0" />
+          <Picker.Item label="Paisagem" value="paisagem" />
+          <Picker.Item label="Fauna" value="fauna" />
+          <Picker.Item label="Flora" value="flora" />
+          <Picker.Item label="Cachoeiras" value="cachoeiras" />
+          <Picker.Item label="Riachos" value="riachos" />
+          <Picker.Item label="Montanhas" value="montanhas" />
+          <Picker.Item label="Referência para Trilha" value="trilhas" />
+        </Picker>
+        <View style={styles.form}>
+          <TextInput style={styles.text}
+            mode="outlined"
+            label="Título"
+            placeholder="Insira um Título"
+            value={locationTitle}
+            onChangeText={locationTitle => setLocationTitle(locationTitle)}
+          />
+        </View>
+        <TextInput style={styles.text}
+          mode="outlined"
+          label="Descrição"
+          placeholder="Insira uma Descrição"
+          value={locationDesc}
+          onChangeText={locationDesc => setLocationDesc(locationDesc)}
+          multiline={true}
+          numberOfLines={4}
+        />
+        <View>
+          <Text style={starStyles.textStyle}>Imagens</Text>
+          <ViewPager
+            pageMargin={1}
+            style={{ height: 250 }}>
+            <View>
+              <Image source={{uri: locationImages[0]}} style={{width: 420, height: 250}}/>
+            </View>
+            <View>
+              <Image source={{uri: locationImages[1]}} style={{width: 420, height: 250}}/>
+            </View>
+            <View>
+              <Image source={{uri: locationImages[2]}} style={{width: 420, height: 250}}/>
+            </View>
+          </ViewPager>
+        </View>
+        <SafeAreaView style={starStyles.container}>
+          <View style={starStyles.container}>
+            <Text style={starStyles.textStyle}>
+              Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
+            </Text>
+            {RatingStars()}
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+
       <ActionButton buttonColor="rgba(1, 152, 117, 1)">
         <ActionButton.Item buttonColor='#9b59b6' title="Compartilhar" onPress={() => shareLocation()}>
           <Icon name="md-share" style={styles.actionButtonIcon} />
@@ -242,20 +188,12 @@ const Location = ({ location_id, l_title, location}) => {
         <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openLocationRoute()}>
           <Icon name="md-map-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => this.props.navigation.navigate('Map')}>
+        <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => NavigationService.navigate('Map')}>
           <Icon name="md-return-up-back-sharp" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
     </SafeAreaView>
   );
 }
-
-const stylesFAB = StyleSheet.create({
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: 'white',
-  },
-});
 
 export default Location;
