@@ -24,7 +24,8 @@ const locationStyles = StyleSheet.create({
         fontWeight: 'bold'
     },
     text: {
-        margin: 10
+        margin: 10,
+        textAlign: 'center',
     },
     subtitle:{
         color: 'green',
@@ -35,7 +36,7 @@ const locationStyles = StyleSheet.create({
         margin: 20
     },
     button: {
-        margin: 10
+        margin: 10,
     },
     actionButtonIcon: {
         fontSize: 20,

@@ -70,8 +70,8 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 # Possible Bugs
 
 1. https://github.com/nitaliano/react-native-mapbox-gl/issues/937
-2. currentLongitude and currentLatitude bug into AddLocation
-3. Location Form re-rendering ALL after any change
+2. currentLongitude and currentLatitude bug navigation params into AddLocation (get from database if needed)
+3. re-center map in user location only work once - need to re-render map zoom in user location
 
 ---
 

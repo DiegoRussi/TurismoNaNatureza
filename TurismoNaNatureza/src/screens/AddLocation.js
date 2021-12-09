@@ -4,7 +4,6 @@ import {
   ScrollView,
   Text,
   Image,
-  Button,
   SafeAreaView,
   TouchableOpacity,
   Linking
@@ -13,7 +12,7 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
 
@@ -31,10 +30,11 @@ const AddLocation = ({ long, lat}) => {
   const type = "";
   const title = "";
   const desc = "";
-  const images =  [ //[ "../assets/empty.jpg" ];
-    'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
-    'https://static.educalingo.com/img/en/800/nature.jpg',
-    'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
+  const imgPlaceholder = {uri: "https://www.ultimatesource.toys/wp-content/uploads/2013/11/dummy-image-landscape-1-1024x800.jpg"}
+  const images =  [
+    imgPlaceholder,
+    imgPlaceholder,
+    imgPlaceholder
   ];
   const rate = 4;
 
@@ -44,8 +44,8 @@ const AddLocation = ({ long, lat}) => {
   //   ] = getLocationInfo(location_id);
   // }
 
-  const [currentLongitude, setCurrentLongitude] = useState(longitude);
-  const [currentLatitude, setCurrentLatitude] = useState(latitude);
+  const [locationLongitude] = useState(longitude);
+  const [locationLatitude] = useState(latitude);
   const [locationType, setLocationType] = useState(type);
   const [locationTitle, setLocationTitle] = useState(title);
   const [locationDesc, setLocationDesc] = useState(desc);
@@ -77,10 +77,14 @@ const AddLocation = ({ long, lat}) => {
     ); 
   };
 
+  const addImages = () => {
+    console.log("addImages TO BE IMPLEMENTED");
+  }
+
   const newLocation = () => {
     console.log("newLocation TO BE IMPLEMENTED");
-    console.log("currentLatitude = ", currentLatitude);
-    console.log("currentLongitude = ", currentLongitude);
+    console.log("locationLatitude = ", locationLatitude);
+    console.log("locationLongitude = ", locationLongitude);
     console.log("locationType = ", locationType);
     console.log("locationTitle = ", locationTitle);
     console.log("locationDesc = ", locationDesc);
@@ -99,8 +103,8 @@ const AddLocation = ({ long, lat}) => {
   const openLocationRoute = () => {
     console.log("openLocationRoute")
     Linking.openURL(
-      // `http://www.google.com/maps/place/${currentLatitude},${currentLongitude}`
-      `https://maps.google.com/?q=${currentLatitude},${currentLongitude}`
+      // `http://www.google.com/maps/place/${locationLatitude},${locationLongitude}`
+      `https://maps.google.com/?q=${locationLatitude},${locationLongitude}`
     );
   }
 
@@ -110,26 +114,29 @@ const AddLocation = ({ long, lat}) => {
         <View style={styles.subContainer}>
           <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
           <Text style={styles.title}>Coordenadas</Text>
-          <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
-          <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
+          <Text style={styles.subtitle}>Latitude: {locationLatitude}</Text>
+          <Text style={styles.subtitle}>Longitude: {locationLongitude}</Text>
         </View>
-        <Picker
-          prompt={'Tipo de Local'}
-          selectedValue={locationType}
-          onValueChange={(itemValue, itemIndex) =>
-            setLocationType(itemValue)
-          }
-          >
-          <Picker.Item label="Selecione o Tipo de Local" value="0" />
-          <Picker.Item label="Paisagem" value="paisagem" />
-          <Picker.Item label="Fauna" value="fauna" />
-          <Picker.Item label="Flora" value="flora" />
-          <Picker.Item label="Cachoeiras" value="cachoeiras" />
-          <Picker.Item label="Riachos" value="riachos" />
-          <Picker.Item label="Montanhas" value="montanhas" />
-          <Picker.Item label="Referência para Trilha" value="trilhas" />
-        </Picker>
+
         <View style={styles.form}>
+
+          <Picker
+            prompt={'Tipo de Local'}
+            selectedValue={locationType}
+            onValueChange={(itemValue, itemIndex) =>
+              setLocationType(itemValue)
+            }
+            >
+            <Picker.Item label="Selecione o Tipo de Local" value="0" />
+            <Picker.Item label="Paisagem" value="paisagem" />
+            <Picker.Item label="Fauna" value="fauna" />
+            <Picker.Item label="Flora" value="flora" />
+            <Picker.Item label="Cachoeiras" value="cachoeiras" />
+            <Picker.Item label="Riachos" value="riachos" />
+            <Picker.Item label="Montanhas" value="montanhas" />
+            <Picker.Item label="Referência para Trilha" value="trilhas" />
+          </Picker>
+
           <TextInput style={styles.text}
             mode="outlined"
             label="Título"
@@ -137,45 +144,57 @@ const AddLocation = ({ long, lat}) => {
             value={locationTitle}
             onChangeText={locationTitle => setLocationTitle(locationTitle)}
           />
-        </View>
-        <TextInput style={styles.text}
-          mode="outlined"
-          label="Descrição"
-          placeholder="Insira uma Descrição"
-          value={locationDesc}
-          onChangeText={locationDesc => setLocationDesc(locationDesc)}
-          multiline={true}
-          numberOfLines={4}
-        />
-        <View>
-          <Text style={starStyles.textStyle}>Imagens</Text>
+
+          <TextInput style={styles.text}
+            mode="outlined"
+            label="Descrição"
+            placeholder="Insira uma Descrição"
+            value={locationDesc}
+            onChangeText={locationDesc => setLocationDesc(locationDesc)}
+            multiline={true}
+            numberOfLines={4}
+          />
+
+          <Text style={styles.title}>Imagens</Text>
           <ViewPager
             pageMargin={1}
             style={{ height: 250 }}>
             <View>
-              <Image source={{uri: locationImages[0]}} style={{width: 420, height: 250}}/>
+              <Image source={locationImages[0]} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={{uri: locationImages[1]}} style={{width: 420, height: 250}}/>
+              <Image source={locationImages[1]} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={{uri: locationImages[2]}} style={{width: 420, height: 250}}/>
+              <Image source={locationImages[2]} style={{width: 420, height: 250}}/>
             </View>
           </ViewPager>
-        </View>
-        <SafeAreaView style={starStyles.container}>
-          <View style={starStyles.container}>
-            <Text style={starStyles.textStyle}>
-              Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
-            </Text>
-            {RatingStars()}
-          </View>
-        </SafeAreaView>
-        <View style={styles.button}>
-          <Button
-            title='Salvar'
+
+          <Button style={styles.button}
+            color="green"
+            mode="contained"
+            onPress={() => addImages()}
+          >
+            Adicionar Imagens
+          </Button>
+
+          <SafeAreaView style={starStyles.container}>
+            <View style={starStyles.container}>
+              <Text style={starStyles.textStyle}>
+                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
+              </Text>
+              {RatingStars()}
+            </View>
+          </SafeAreaView>
+
+          <Button style={styles.button}
+            color="green"
+            mode="contained"
             onPress={() => newLocation()}
-          />
+          >
+            Salvar Local
+          </Button>
+
         </View>
       </ScrollView>
 

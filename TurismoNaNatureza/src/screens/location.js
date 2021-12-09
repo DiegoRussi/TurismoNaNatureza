@@ -29,25 +29,34 @@ const Location = ({ location_id, l_title, location}) => {
   console.log("l_title = ", l_title);
   console.log("location = ", location);
 
+  // const [
+  //   latitude, longitude, type, title, desc, images, rate
+  // ] = getLocationInfo(location_id);
+
   const longitude = location[0];
   const latitude = location[1];
-  console.log("longitude = ", longitude);
-  console.log("latitude = ", latitude);
-  const type = "";
+  const type = "cachoeiras";
   const title = l_title;
-  const desc = "";
+  const desc = "TESTE";
   const images =  [
     'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
     'https://static.educalingo.com/img/en/800/nature.jpg',
     'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
   ];
+  // const imgPlaceholder = {uri: "https://www.ultimatesource.toys/wp-content/uploads/2013/11/dummy-image-landscape-1-1024x800.jpg"}
+  // const images =  [
+  //   imgPlaceholder,
+  //   imgPlaceholder,
+  //   imgPlaceholder
+  // ];
   const rate = 4;
-
-  // if (!is_add){
-  //   const [
-  //     latitude, longitude, type, title, desc, images, rate
-  //   ] = getLocationInfo(location_id);
-  // }
+  console.log("longitude = ", longitude);
+  console.log("latitude = ", latitude);
+  console.log("type = ", type);
+  console.log("title = ", title);
+  console.log("desc = ", desc);
+  console.log("images = ", images);
+  console.log("rate = ", rate);
 
   const [currentLongitude, setCurrentLongitude] = useState(longitude);
   const [currentLatitude, setCurrentLatitude] = useState(latitude);
@@ -82,17 +91,6 @@ const Location = ({ location_id, l_title, location}) => {
     ); 
   };
 
-  const newLocation = () => {
-    console.log("newLocation TO BE IMPLEMENTED");
-    console.log("currentLatitude = ", currentLatitude);
-    console.log("currentLongitude = ", currentLongitude);
-    console.log("locationType = ", locationType);
-    console.log("locationTitle = ", locationTitle);
-    console.log("locationDesc = ", locationDesc);
-    console.log("locationImages = ", locationImages);
-    console.log("starRate = ", starRate);
-  }
-
   const shareLocation = () => {
     console.log("TO BE IMPLEMENTED")
   }
@@ -118,41 +116,33 @@ const Location = ({ location_id, l_title, location}) => {
           <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
           <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
         </View>
-        <Picker
-          prompt={'Tipo de Local'}
-          selectedValue={locationType}
-          onValueChange={(itemValue, itemIndex) =>
-            setLocationType(itemValue)
-          }
-          >
-          <Picker.Item label="Selecione o Tipo de Local" value="0" />
-          <Picker.Item label="Paisagem" value="paisagem" />
-          <Picker.Item label="Fauna" value="fauna" />
-          <Picker.Item label="Flora" value="flora" />
-          <Picker.Item label="Cachoeiras" value="cachoeiras" />
-          <Picker.Item label="Riachos" value="riachos" />
-          <Picker.Item label="Montanhas" value="montanhas" />
-          <Picker.Item label="Referência para Trilha" value="trilhas" />
-        </Picker>
+
         <View style={styles.form}>
+
+          <TextInput style={styles.text}
+            mode="outlined"
+            label="Tipo"
+            value={locationType}
+            editable={false}
+          />
+
           <TextInput style={styles.text}
             mode="outlined"
             label="Título"
-            placeholder="Insira um Título"
             value={locationTitle}
-            onChangeText={locationTitle => setLocationTitle(locationTitle)}
+            editable={false}
           />
-        </View>
-        <TextInput style={styles.text}
-          mode="outlined"
-          label="Descrição"
-          placeholder="Insira uma Descrição"
-          value={locationDesc}
-          onChangeText={locationDesc => setLocationDesc(locationDesc)}
-          multiline={true}
-          numberOfLines={4}
-        />
-        <View>
+
+          <TextInput style={styles.text}
+            mode="outlined"
+            label="Descrição"
+            placeholder="Insira uma Descrição"
+            value={locationDesc}
+            editable={false}
+            multiline={true}
+            numberOfLines={4}
+          />
+
           <Text style={starStyles.textStyle}>Imagens</Text>
           <ViewPager
             pageMargin={1}
@@ -167,15 +157,17 @@ const Location = ({ location_id, l_title, location}) => {
               <Image source={{uri: locationImages[2]}} style={{width: 420, height: 250}}/>
             </View>
           </ViewPager>
+
+          <SafeAreaView style={starStyles.container}>
+            <View style={starStyles.container}>
+              <Text style={starStyles.textStyle}>
+                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
+              </Text>
+              {RatingStars()}
+            </View>
+          </SafeAreaView>
+
         </View>
-        <SafeAreaView style={starStyles.container}>
-          <View style={starStyles.container}>
-            <Text style={starStyles.textStyle}>
-              Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
-            </Text>
-            {RatingStars()}
-          </View>
-        </SafeAreaView>
       </ScrollView>
 
       <ActionButton buttonColor="rgba(1, 152, 117, 1)">
