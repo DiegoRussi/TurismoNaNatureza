@@ -11,7 +11,7 @@ import {
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-// import storage from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
 
 const ImageScreen = () => {
 

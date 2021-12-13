@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951486447588",
+    "project_id": "turismonanatureza-90f1d",
+    "storage_bucket": "turismonanatureza-90f1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951486447588:android:46504682df1d0ba1d211f1",
+        "android_client_info": {
+          "package_name": "com.turismonanatureza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951486447588-tccml7ep4f69vmivgo5tu2s74ihfieqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKv2ZwW9gfIhz5DgjHnuTQcLR9sjn284Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951486447588-tccml7ep4f69vmivgo5tu2s74ihfieqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
