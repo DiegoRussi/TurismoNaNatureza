@@ -72,7 +72,7 @@ const Map = () => {
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 3600000 }
     );
   }
 
@@ -176,10 +176,22 @@ const Map = () => {
     );
   }
 
-  // TODO: Improve this hook; called once
   useEffect(() => {
     callLocation();
-  }, []);
+    mapCenter();
+  }, [currentLongitude]);
+
+  const mapCenter = () => {
+    return (
+      <MapboxGL.Camera
+      zoomLevel={10}
+      centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
+      animationMode={'flyTo'}
+      animationDuration={4200}
+    >
+    </MapboxGL.Camera>
+    )
+  }
 
   return (
     <View style={styles.page}>
@@ -190,13 +202,7 @@ const Map = () => {
           zoomLevel={10000}
           centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
           showUserLocation={true}>
-          <MapboxGL.Camera
-            zoomLevel={8}
-            centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
-            animationMode={'flyTo'}
-            animationDuration={4200}
-          >
-          </MapboxGL.Camera>
+          {mapCenter()}
 
           {renderLocationAnnotations(locations)}
 
