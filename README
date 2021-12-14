@@ -58,6 +58,8 @@ $ yarn.cmd add react-native-image-picker
 $ yarn.cmd add @react-native-firebase/app
 $ yarn.cmd add @react-native-firebase/storage
 
+https://console.firebase.google.com/u/1/project/turismonanatureza-90f1d/storage/turismonanatureza-90f1d.appspot.com/files
+
 ---
 
 ## Utils

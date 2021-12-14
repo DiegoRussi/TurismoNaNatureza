@@ -9,6 +9,9 @@ import {
   Linking
 } from 'react-native';
 
+import storage from '@react-native-firebase/storage';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -19,7 +22,6 @@ import ViewPager from '@react-native-community/viewpager';
 import styles from '../styles/locationStyles'
 import starStyles from '../styles/starStyles'
 
-// import getLocationInfo from '../database/LocationHelper.js'
 
 const AddLocation = ({ long, lat}) => {
   console.log("AddLocation DEBUG");
@@ -30,28 +32,27 @@ const AddLocation = ({ long, lat}) => {
   const type = "";
   const title = "";
   const desc = "";
-  const imgPlaceholder = {uri: "https://www.ultimatesource.toys/wp-content/uploads/2013/11/dummy-image-landscape-1-1024x800.jpg"}
-  const images =  [
-    imgPlaceholder,
-    imgPlaceholder,
-    imgPlaceholder
-  ];
   const rate = 4;
-
-  // if (!is_add){
-  //   const [
-  //     latitude, longitude, type, title, desc, images, rate
-  //   ] = getLocationInfo(location_id);
-  // }
+  const imgPlaceholder =  {
+    imagePath: require("../assets/empty.jpg"),
+    fileName: "filename"
+  };
 
   const [locationLongitude] = useState(longitude);
   const [locationLatitude] = useState(latitude);
   const [locationType, setLocationType] = useState(type);
   const [locationTitle, setLocationTitle] = useState(title);
   const [locationDesc, setLocationDesc] = useState(desc);
-  const [locationImages, setLocationImages] = useState(images);
+  const [locationImages, setLocationImages] = useState({
+    empty: 3,
+    images: [
+      imgPlaceholder,
+      imgPlaceholder,
+      imgPlaceholder
+    ]
+  });
   const [starRate, setStarRate] = useState(rate); 
-  const [starRatings, setstarRatings] = useState([1, 2, 3, 4, 5]); 
+  const [starRatings, setstarRatings] = useState([1, 2, 3, 4, 5]);
 
   const RatingStars = () => { 
     return ( 
@@ -78,8 +79,124 @@ const AddLocation = ({ long, lat}) => {
   };
 
   const addImages = () => {
-    console.log("addImages TO BE IMPLEMENTED");
+    if (locationImages.empty > 0){
+      selectImages()
+    } else {
+      alert("Selecione apenas 3 fotos!");
+    }
   }
+
+  const selectImages = () => {
+    var options = {
+      title: 'Select Image',
+      customButtons: [
+        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path:'images', // store camera images under Pictures/images on android
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else if (response.assets.length > 0) {
+        let source = response.assets[0];
+        console.log('source = ', source);
+        let path = source.uri;
+        let fileName = getFileName(source.fileName, path);
+        setImages(path, fileName)
+
+      } else {
+        console.log("deu ruim");
+      }
+    });
+  }
+
+  const setImages = (path, fileName) => {
+    console.log("setImages locationImages.empty = ", locationImages.empty);
+    let first = locationImages.images[0]
+    let second = locationImages.images[1]
+    let third = locationImages.images[2]
+
+    if (locationImages.empty == 3){
+      setLocationImages({
+        empty: 2,
+        images: [
+          {
+            imagePath: path,
+            fileName: fileName
+          },
+          second,
+          third
+        ]
+      });
+    } else if (locationImages.empty == 2){
+      setLocationImages({
+        empty: 1,
+        images: [
+          first,
+          {
+            imagePath: path,
+            fileName: fileName
+          },
+          third
+        ]
+      });
+    } else if (locationImages.empty == 1){
+      setLocationImages({
+        empty: 0,
+        images: [
+          first,
+          second,
+          {
+            imagePath: path,
+            fileName: fileName
+          }
+        ]
+      });
+    } else {
+      console.log("Selecione apenas 3 fotos");
+    }
+  }
+
+  const getFileName = (name, path) => {
+    if (name != null) { return name; }
+    return path.split("/").pop();
+  }
+
+  const getURI = (imagePath, pos) => {
+    let imgSource = imagePath;
+    if (isNaN(imagePath)) {
+      imgSource = { uri: locationImages.images[pos].imagePath };
+    }
+    return imgSource
+  }
+
+  const uploadImageToStorage = (path, imageName) => {
+    // setUpload({ isLoading: true });
+    let reference = storage().ref(imageName);
+
+    const task = reference.putFile(path);
+    task.on('state_changed', taskSnapshot => {
+      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+    });
+
+    task.then(() => {
+        console.log('Image uploaded to the bucket!');
+        // setUpload({ isLoading: false, status: 'Image uploaded successfully' });
+    }).catch((e) => {
+      // setUpload({ isLoading: false, status: 'Something went wrong :(' });
+      console.log('uploading image error => ', e);
+    })
+  }
+
 
   const newLocation = () => {
     console.log("newLocation TO BE IMPLEMENTED");
@@ -90,6 +207,11 @@ const AddLocation = ({ long, lat}) => {
     console.log("locationDesc = ", locationDesc);
     console.log("locationImages = ", locationImages);
     console.log("starRate = ", starRate);
+
+    Object.values(locationImages.images).forEach(img => {
+      uploadImageToStorage(img.imagePath, img.fileName)
+    });
+    // saveLocationInfo()
   }
 
   const shareLocation = () => {
@@ -160,13 +282,13 @@ const AddLocation = ({ long, lat}) => {
             pageMargin={1}
             style={{ height: 250 }}>
             <View>
-              <Image source={locationImages[0]} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImages.images[0].imagePath, 0)} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={locationImages[1]} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImages.images[1].imagePath, 1)} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={locationImages[2]} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImages.images[2].imagePath, 2)} style={{width: 420, height: 250}}/>
             </View>
           </ViewPager>
 
