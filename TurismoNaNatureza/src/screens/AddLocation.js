@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -9,6 +9,7 @@ import {
   Linking
 } from 'react-native';
 
+import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
@@ -198,8 +199,8 @@ const AddLocation = ({ long, lat}) => {
   }
 
 
-  const newLocation = () => {
-    console.log("newLocation TO BE IMPLEMENTED");
+  const savewNewLocation = () => {
+    console.log("savewNewLocation TO BE IMPLEMENTED");
     console.log("locationLatitude = ", locationLatitude);
     console.log("locationLongitude = ", locationLongitude);
     console.log("locationType = ", locationType);
@@ -211,7 +212,57 @@ const AddLocation = ({ long, lat}) => {
     Object.values(locationImages.images).forEach(img => {
       uploadImageToStorage(img.imagePath, img.fileName)
     });
-    // saveLocationInfo()
+
+    let newLocation = {
+      // id: "1",
+      coord_x: locationLatitude,
+      coord_y: locationLongitude,
+      type: locationType,
+      title: locationTitle,
+      desc: locationDesc,
+      images: [ // used fileName as image ref
+        locationImages.images[0].fileName,
+        locationImages.images[1].fileName,
+        locationImages.images[2].fileName,
+      ],
+      review: starRate,
+    }
+
+    saveLocation(newLocation).then(() => {
+      console.log('Location added!');
+    }).catch(error => console.error("Add error: ", error));
+
+    getLocations().then((loc)=>{
+      console.log("Get locations = ",loc);
+    }).catch(error => console.error("Get error: ", error));
+  }
+
+  const locationsRef = firestore().collection('locations');
+  let locationsTotal = 0;
+  let locationsId = [];
+  let locationsData = [];
+
+  // GET
+  async function getLocations() {
+    let locations = [];
+    await locationsRef.get().then(async querySnapshot => {
+      locationsTotal = querySnapshot.size;
+      console.log('Total locations: ', locationsTotal);
+      querySnapshot.forEach(documentSnapshot => {
+        console.log('Location ID: ', documentSnapshot.id, documentSnapshot.data());
+        locations.push(documentSnapshot.data());
+
+        locationsId.push(documentSnapshot.id);
+        locationsData.push(documentSnapshot.data());
+      });
+    });
+    return locations;
+  }
+
+  // ADD
+  async function saveLocation(newLocation) {
+    console.log("saving newLocation: ", newLocation);
+    await locationsRef.add(newLocation);
   }
 
   const shareLocation = () => {
@@ -312,7 +363,7 @@ const AddLocation = ({ long, lat}) => {
           <Button style={styles.button}
             color="green"
             mode="contained"
-            onPress={() => newLocation()}
+            onPress={() => savewNewLocation()}
           >
             Salvar Local
           </Button>
