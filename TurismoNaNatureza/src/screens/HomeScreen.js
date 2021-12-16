@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Button } from 'react-native';
+import { View } from 'react-native';
+
+import { Button } from 'react-native-paper';
 
 import Home from '../screens/Home'
 import styles from '../styles/homeStyles'
@@ -20,17 +22,13 @@ class HomeScreen extends Component {
         <Home navigation={this.props.navigation}/>
 
         <View style={styles.button}>
-          <Button
-            title='Entrar'
+          <Button style={styles.button}
+            color="green"
+            mode="contained"
             onPress={() => this.props.navigation.navigate('Map', {device_uid: 123456789, login: 987654321})}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title='TESTE'
-            // onPress={() => this.props.navigation.navigate('Location', {device_uid: 123456789, login: 987654321, location_id: 8080})}
-            onPress={() => this.props.navigation.navigate('ImageScreen')}
-          />
+          >
+            Entrar
+          </Button>
         </View>
 
       </View>

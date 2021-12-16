@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { HomeScreen, MapScreen, LocationScreen, AddLocationScreen, ImageScreen } from './src/screens/index';
+import { HomeScreen, MapScreen, LocationScreen, AddLocationScreen } from './src/screens/index';
 
 import NavigationService from './src/helpers/NavigationService';
 
@@ -19,9 +19,6 @@ const AppNavigator = createStackNavigator(
     },
     AddLocation: {
       screen: AddLocationScreen
-    },
-    ImageScreen: {
-      screen: ImageScreen
     }
   },
   {
