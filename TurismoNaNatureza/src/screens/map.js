@@ -8,6 +8,8 @@ import {
   Alert
 } from "react-native";
 
+import firestore from '@react-native-firebase/firestore';
+
 import MapboxGL from "@react-native-mapbox-gl/maps";
 MapboxGL.setAccessToken("pk.eyJ1IjoiZGllZ29tcnVzc2kiLCJhIjoiY2txNzdzcW93MDBzdzJ1czFuYnh1MTd6dSJ9.gyNJSzLJdeUUS0iySzdLhw");
 import Geolocation from '@react-native-community/geolocation';
@@ -17,13 +19,54 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationService from '../helpers/NavigationService.js';
 import styles from '../styles/mapStyles'
 
+
 const Map = () => {
   console.log("RENDERIZOU Map");
 
   const [coordinates] = useState([-49.00401,-26.90078]);
   const [currentLatitude, setCurrentLatitude] = useState(0);
   const [currentLongitude, setCurrentLongitude] = useState(0);
+  // locations database
+  const [locationsRef, setLocationsRef] = useState(firestore().collection('locations'));
+  const [locationsTotal, setLocationsTotal] = useState(0);
+  const [locationsId, setLocationsId] = useState([]);
+  const [locationsData, setLocationsData] = useState([]);
+  const [state, setState] = useState({
+    isLoading: true,
+    locationsArray: []
+  });
 
+  useEffect(() => {
+    return locationsRef.onSnapshot((querySnapshot => {
+      getCollection(querySnapshot)
+    }));
+    
+  }, []);
+
+  const getCollection = (querySnapshot) => {
+    const locationsArray = [];
+    querySnapshot.forEach((res) => {
+      const data = res.data();
+      console.log("getCollection data = ", data);
+      locationsArray.push({
+        key: res.id,
+        coord_x: data.coord_x,
+        coord_y: data.coord_y,
+        type: data.type,
+        title: data.title,
+        desc: data.desc,
+        images: data.images,
+        review: data.review,
+      });
+      setState({
+        locationsArray: locationsArray,
+        isLoading: false,
+      });
+      return 'done';
+    });
+  }
+
+  // Refactor/Rename to callUserLocation
   const callLocation = () => {
     if(Platform.OS === 'ios') { 
       getLocation(); 
@@ -55,6 +98,7 @@ const Map = () => {
     }
   }
 
+  // Refactor/Rename to getUserLocation
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -76,7 +120,7 @@ const Map = () => {
     );
   }
 
-  const renderUserAnnotation = () => {
+  const RenderUserAnnotation = () => {
     return (
       <MapboxGL.PointAnnotation
         key="userPointAnnotation"
@@ -94,42 +138,37 @@ const Map = () => {
     );
   }
 
-  const renderLocationAnnotations = (locations) => {
-    let location_id = "TODO"
-    const locationsItems = locations.map((location, index) =>
+  const RenderLocationAnnotations = () => {
+    const locationsItems = state.locationsArray.map((location, index) =>
       <MapboxGL.PointAnnotation
-        key={`location${index}`}
-        id={`location${index}`}
-        title={index}
-        coordinate={ location }
-        onSelected={() => selectLocation(`location${index}`, location, location_id)}
+        key={location.key}
+        id={location.key}
+        title={location.title}
+        coordinate={ [location.coord_x,location.coord_y] }
+        onSelected={() => showAlertLocation(location.key, location.coord_y, location.coord_x, location.title, location.type)}
         >
       </MapboxGL.PointAnnotation>
     );
-    return ( locationsItems );
+    return locationsItems;
   }
 
-  const locations = [
-    [-49.00401,-26.90079], // IFSC
-    [-49.00478,-26.90564], // MIRANTE
-    [-49.00502,-26.90180], // TESTS
-    [-49.00603,-26.90281],
-    [-49.00704,-26.90382]
-  ];
-  //TODO: helpers.getLocationCoords();
-
-  const selectLocation = (title, location, location_id) =>{
-    console.log("selectLocation")
-    console.log("title = ", title)
-    console.log("location = ", location)
-    showAlertLocation(title, location, location_id)
-  }
+  // locations hard-coded
+  // let locations = [
+  //   {
+  //     coord_x: -26.90078,
+  //     coord_y: -49.00401,
+  //     type: "IFSC",
+  //     title: "IFSC - Campus Gaspar"
+  //   },
+  //   {
+  //     coord_x: -26.90564,
+  //     coord_y: -49.00478,
+  //     type: "paisagens",
+  //     title: "Mirante no Bela Vista"
+  //   },
+  // ];
 
   const openLocation = (title, location, location_id) => {
-    console.log("openLocation")
-    console.log("title = ", title)
-    console.log("location = ", location)
-    console.log("location_id = ", location_id)
     NavigationService.navigate('Location', {title: title, location_id: location_id, location: location})
   }
 
@@ -147,17 +186,16 @@ const Map = () => {
     }
   }
 
-  const showAlertLocation = (title, location, location_id) => {
-    let type = "TODO"
+  const showAlertLocation = (id, title, type) => {
     Alert.alert(
       "Visualizar Local",
-      "Titulo: = " + title + "\nTipo = " + type + "\nlocation = " + location,
+      "Titulo: " + title + "\nTipo: " + type,
       [
         {
           text: "Voltar",
           style: "cancel"
         },
-        { text: "Visualizar", onPress: () => openLocation(title, location, location_id) }
+        { text: "Visualizar", onPress: () => openLocation(title, location, id) }
       ]
     );
   }
@@ -204,9 +242,9 @@ const Map = () => {
           showUserLocation={true}>
           {mapCenter()}
 
-          {renderLocationAnnotations(locations)}
+          <RenderLocationAnnotations />
 
-          {renderUserAnnotation(currentLongitude, currentLatitude)}
+          <RenderUserAnnotation />
 
         </MapboxGL.MapView>
 
@@ -232,5 +270,6 @@ const stylesFAB = StyleSheet.create({
     color: 'white',
   },
 });
+
 
 export default Map;
