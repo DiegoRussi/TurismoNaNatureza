@@ -9,6 +9,8 @@ import {
   Linking
 } from 'react-native';
 
+import NavigationService from '../helpers/NavigationService.js';
+
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -24,10 +26,10 @@ import styles from '../styles/locationStyles'
 import starStyles from '../styles/starStyles'
 
 
-const AddLocation = ({ long, lat}) => {
+const AddLocation = ({ location }) => {
   console.log("AddLocation DEBUG");
-  const longitude = long;
-  const latitude = lat;
+  const longitude = location[0];
+  const latitude = location[1];
   console.log("longitude = ", longitude);
   console.log("latitude = ", latitude);
   const type = "";
@@ -194,10 +196,10 @@ const AddLocation = ({ long, lat}) => {
         // setUpload({ isLoading: false, status: 'Image uploaded successfully' });
     }).catch((e) => {
       // setUpload({ isLoading: false, status: 'Something went wrong :(' });
+      alert("Erro no upload de imagens");
       console.log('uploading image error => ', e);
     })
   }
-
 
   const savewNewLocation = () => {
     console.log("savewNewLocation TO BE IMPLEMENTED");
@@ -210,13 +212,15 @@ const AddLocation = ({ long, lat}) => {
     console.log("starRate = ", starRate);
 
     Object.values(locationImages.images).forEach(img => {
-      uploadImageToStorage(img.imagePath, img.fileName)
+      if (img.fileName != "filename"){
+        uploadImageToStorage(img.imagePath, img.fileName)
+      }
     });
 
     let newLocation = {
       // id: "1",
-      coord_x: locationLatitude,
-      coord_y: locationLongitude,
+      coord_x: locationLongitude,
+      coord_y: locationLatitude,
       type: locationType,
       title: locationTitle,
       desc: locationDesc,
@@ -230,11 +234,13 @@ const AddLocation = ({ long, lat}) => {
 
     saveLocation(newLocation).then(() => {
       console.log('Location added!');
-    }).catch(error => console.error("Add error: ", error));
+      alert("Local salvo com sucesso!");
+      NavigationService.navigate('Map');
+    }).catch(error => {
+      console.error("Add error: ", error)
+      alert("Erro ao salvar novo local");
+    });
 
-    getLocations().then((loc)=>{
-      console.log("Get locations = ",loc);
-    }).catch(error => console.error("Get error: ", error));
   }
 
   const locationsRef = firestore().collection('locations');
@@ -381,7 +387,7 @@ const AddLocation = ({ long, lat}) => {
         <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openLocationRoute()}>
           <Icon name="md-map-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => this.props.navigation.navigate('Map')}>
+        <ActionButton.Item buttonColor='#3498db' title="Voltar" onPress={() => NavigationService.navigate('Map')}>
           <Icon name="md-return-up-back-sharp" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>

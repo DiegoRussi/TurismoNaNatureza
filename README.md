@@ -10,7 +10,7 @@
 
 ---
 
-## Comandos
+## Componentes/Comandos
 
 $ npx react-native init TurismoNaNatureza --version 0.64.2
 $ cd TurismoNaNatureza
@@ -59,9 +59,13 @@ $ yarn.cmd add react-native-image-picker
 $ yarn.cmd add @react-native-firebase/app
 $ yarn.cmd add @react-native-firebase/storage
 
+> Firebase Console 
 https://console.firebase.google.com/u/1/project/turismonanatureza-90f1d/storage/turismonanatureza-90f1d.appspot.com/files
 
 $ yarn.cmd add @react-native-firebase/firestore@12.9.2
+
+##### firestore render handling
+https://invertase.io/blog/getting-started-with-cloud-firestore-on-react-native
 
 ---
 
@@ -83,6 +87,8 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 # TODO
 
 !!! Create remote repository gitlab/github
+
+[ ] #0 Check Firebase rules to access database, currently vulnerable (will need to add auth to deploy app)
 
 [X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/

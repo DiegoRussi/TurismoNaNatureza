@@ -20,49 +20,43 @@ import NavigationService from '../helpers/NavigationService.js';
 import styles from '../styles/mapStyles'
 
 
-const Map = () => {
+const Map = ({device_uid, login}) => {
   console.log("RENDERIZOU Map");
+  console.log("device_uid: ", device_uid);
+  console.log("login: ", login);
 
   const [coordinates] = useState([-49.00401,-26.90078]);
   const [currentLatitude, setCurrentLatitude] = useState(0);
   const [currentLongitude, setCurrentLongitude] = useState(0);
   // locations database
   const [locationsRef, setLocationsRef] = useState(firestore().collection('locations'));
-  const [locationsTotal, setLocationsTotal] = useState(0);
-  const [locationsId, setLocationsId] = useState([]);
-  const [locationsData, setLocationsData] = useState([]);
   const [state, setState] = useState({
     isLoading: true,
     locationsArray: []
   });
 
   useEffect(() => {
+    console.log("useEffect 1");
     return locationsRef.onSnapshot((querySnapshot => {
       getCollection(querySnapshot)
     }));
-    
   }, []);
 
   const getCollection = (querySnapshot) => {
     const locationsArray = [];
     querySnapshot.forEach((res) => {
       const data = res.data();
-      console.log("getCollection data = ", data);
       locationsArray.push({
         key: res.id,
         coord_x: data.coord_x,
         coord_y: data.coord_y,
         type: data.type,
-        title: data.title,
-        desc: data.desc,
-        images: data.images,
-        review: data.review,
+        title: data.title
       });
       setState({
         locationsArray: locationsArray,
         isLoading: false,
       });
-      return 'done';
     });
   }
 
@@ -85,27 +79,25 @@ const Map = () => {
             }
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            getLocation();
+            getLocation(true);
           } else {
             alert('Permissão de Localização negada');
           }
         };
         requestLocationPermission();
       } catch (error) {
-      console.log("callLocation error = ", callLocation);
-      getLocation();
+        console.log("callLocation error = ", callLocation);
+        getLocation(false);
       }
     }
   }
 
   // Refactor/Rename to getUserLocation
-  const getLocation = () => {
+  const getLocation = (enableHighAccuracy=true) => {
     Geolocation.getCurrentPosition(
       (position) => {
         const currentLatitude = position.coords.latitude;
         const currentLongitude = position.coords.longitude;
-        console.log("currentLatitude=",currentLatitude);
-        console.log("currentLongitude=",currentLongitude);
         setCurrentLatitude(currentLatitude);
         setCurrentLongitude(currentLongitude);
       },
@@ -116,40 +108,48 @@ const Map = () => {
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 3600000 }
+      { enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 3600000 }
     );
   }
 
   const RenderUserAnnotation = () => {
-    return (
-      <MapboxGL.PointAnnotation
-        key="userPointAnnotation"
-        id="userPointAnnotation"
-        coordinate={ [currentLongitude, currentLatitude] }>
-        <View style={{
-          height: 30,
-          width: 30, 
-          backgroundColor: '#00cccc', 
-          borderRadius: 50, 
-          borderColor: '#fff', 
-          borderWidth: 3
-        }} />
-      </MapboxGL.PointAnnotation>
-    );
+    if (currentLongitude != 0){
+      return (
+        <MapboxGL.PointAnnotation
+          key="userPointAnnotation"
+          id="userPointAnnotation"
+          coordinate={ [currentLongitude, currentLatitude] }>
+          <View style={{
+            height: 30,
+            width: 30, 
+            backgroundColor: '#00cccc', 
+            borderRadius: 50, 
+            borderColor: '#fff', 
+            borderWidth: 3
+          }} />
+        </MapboxGL.PointAnnotation>
+      );
+    }
+    return null
   }
 
   const RenderLocationAnnotations = () => {
-    const locationsItems = state.locationsArray.map((location, index) =>
-      <MapboxGL.PointAnnotation
-        key={location.key}
-        id={location.key}
-        title={location.title}
-        coordinate={ [location.coord_x,location.coord_y] }
-        onSelected={() => showAlertLocation(location.key, location.coord_y, location.coord_x, location.title, location.type)}
-        >
-      </MapboxGL.PointAnnotation>
-    );
-    return locationsItems;
+    console.log("state.locationsArray: ", state.locationsArray);
+    // console.log("state.locationsArray.length: ", state.locationsArray.length);
+    if (state.locationsArray.length != 0){
+      const locationsItems = state.locationsArray.map((location, index) =>
+        <MapboxGL.PointAnnotation
+          key={location.key}
+          id={location.key}
+          title={location.title}
+          coordinate={ [location.coord_x.toString(),location.coord_y.toString()] }
+          onSelected={() => showAlertLocation(location.key, location.title, location.type)}
+          >
+        </MapboxGL.PointAnnotation>
+      );
+      return ( locationsItems )
+    }
+    return null
   }
 
   // locations hard-coded
@@ -180,7 +180,9 @@ const Map = () => {
         currentLongitude != 0 ||
         currentLongitude != ""
       ){
-      NavigationService.navigate('AddLocation', {currentLongitude: currentLongitude, currentLatitude: currentLatitude})
+        console.log("currentLatitude: ", currentLatitude);
+        console.log("currentLongitude: ", currentLongitude);
+        NavigationService.navigate('AddLocation', {location: [currentLongitude, currentLatitude]})
     } else {
       showAlertAddError()
     }
@@ -215,6 +217,7 @@ const Map = () => {
   }
 
   useEffect(() => {
+    console.log("useEffect 2");
     callLocation();
     mapCenter();
   }, [currentLongitude]);
@@ -242,9 +245,9 @@ const Map = () => {
           showUserLocation={true}>
           {mapCenter()}
 
-          <RenderLocationAnnotations />
-
           <RenderUserAnnotation />
+
+          <RenderLocationAnnotations />
 
         </MapboxGL.MapView>
 
