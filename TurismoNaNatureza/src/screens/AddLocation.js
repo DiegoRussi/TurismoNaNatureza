@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
@@ -9,11 +9,9 @@ import {
   Linking
 } from 'react-native';
 
-import NavigationService from '../helpers/NavigationService.js';
-
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -21,6 +19,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Button, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
+
+import NavigationService from '../helpers/NavigationService.js';
 
 import styles from '../styles/locationStyles'
 import starStyles from '../styles/starStyles'
@@ -202,15 +202,6 @@ const AddLocation = ({ location }) => {
   }
 
   const savewNewLocation = () => {
-    console.log("savewNewLocation TO BE IMPLEMENTED");
-    console.log("locationLatitude = ", locationLatitude);
-    console.log("locationLongitude = ", locationLongitude);
-    console.log("locationType = ", locationType);
-    console.log("locationTitle = ", locationTitle);
-    console.log("locationDesc = ", locationDesc);
-    console.log("locationImages = ", locationImages);
-    console.log("starRate = ", starRate);
-
     Object.values(locationImages.images).forEach(img => {
       if (img.fileName != "filename"){
         uploadImageToStorage(img.imagePath, img.fileName)
@@ -218,7 +209,6 @@ const AddLocation = ({ location }) => {
     });
 
     let newLocation = {
-      // id: "1",
       coord_x: locationLongitude,
       coord_y: locationLatitude,
       type: locationType,
@@ -269,14 +259,6 @@ const AddLocation = ({ location }) => {
   async function saveLocation(newLocation) {
     console.log("saving newLocation: ", newLocation);
     await locationsRef.add(newLocation);
-  }
-
-  const shareLocation = () => {
-    console.log("TO BE IMPLEMENTED")
-  }
-
-  const starLocation = () => {
-    console.log("TO BE IMPLEMENTED")
   }
 
   const openLocationRoute = () => {
@@ -378,12 +360,6 @@ const AddLocation = ({ location }) => {
       </ScrollView>
 
       <ActionButton buttonColor="rgba(1, 152, 117, 1)">
-        <ActionButton.Item buttonColor='#9b59b6' title="Compartilhar" onPress={() => shareLocation()}>
-          <Icon name="md-share" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Avaliar" onPress={() => starLocation()}>
-          <Icon name="md-star" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
         <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openLocationRoute()}>
           <Icon name="md-map-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>

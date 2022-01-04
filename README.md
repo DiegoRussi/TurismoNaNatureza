@@ -18,54 +18,67 @@ $ cd TurismoNaNatureza
 $ yarn android ($ npx react-native run-android --verbose)
 
 ### Mapbox
-$ yarn.cmd add @react-native-mapbox-gl/maps@8.2.1
+$ yarn add @react-native-mapbox-gl/maps@8.2.1
 
 ### Navigation
-$ yarn.cmd add react-navigation
-$ yarn.cmd add react-navigation-stack
+$ yarn add react-navigation
+$ yarn add react-navigation-stack
 
 dependencies
-$ yarn.cmd add react-native-gesture-handler
+$ yarn add react-native-gesture-handler
 $ npx react-native link react-native-gesture-handler
-$ yarn.cmd add react-native-reanimated
-$ yarn.cmd add react-native-screens
-$ yarn.cmd add react-native-safe-area-context
+$ yarn add react-native-reanimated
+$ yarn add react-native-screens
+$ yarn add react-native-safe-area-context
 
 ### Geolocation
 
-$ yarn.cmd add @react-native-community/geolocation
+$ yarn add @react-native-community/geolocation
 
 ### FAB
 
-$ yarn.cmd add react-native-action-button
-$ yarn.cmd add react-native-vector-icons
+$ yarn add react-native-action-button
+$ yarn add react-native-vector-icons
 $ npx react-native link
 
 ### Form
 
-$ yarn.cmd add react-native-paper
+$ yarn add react-native-paper
 
 #### combobox
-$ yarn.cmd add @react-native-picker/picker
+$ yarn add @react-native-picker/picker
 
 #### photos
 INITIALLY
-$ yarn.cmd add @react-native-community/viewpager
+$ yarn add @react-native-community/viewpager
 
 #### image picker + firebase
-$ yarn.cmd add react-native-image-picker
+$ yarn add react-native-image-picker
 
 #### firebase storage + database
-$ yarn.cmd add @react-native-firebase/app
-$ yarn.cmd add @react-native-firebase/storage
+$ yarn add @react-native-firebase/app
+$ yarn add @react-native-firebase/storage
+
+#### share
+$ yarn add react-native-share
 
 > Firebase Console 
 https://console.firebase.google.com/u/1/project/turismonanatureza-90f1d/storage/turismonanatureza-90f1d.appspot.com/files
 
-$ yarn.cmd add @react-native-firebase/firestore@12.9.2
+$ yarn add @react-native-firebase/firestore@12.9.2
 
 ##### firestore render handling
 https://invertase.io/blog/getting-started-with-cloud-firestore-on-react-native
+
+---
+
+## Use Cases
+
+[X] Visualizar no mapa os locais para turismo na natureza;
+[X] Adicionar um novo registro na localização atual do usuário pelo GPS;
+[X] Criar rota ao local por meio de aplicativo de mapas
+[] Compartilhar um local;
+[REMOVED] Avaliar um local;
 
 ---
 
@@ -88,7 +101,23 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 
 !!! Create remote repository gitlab/github
 
+!!! POPULATE locations
+  // locations hard-coded
+  //     coord_x: -26.90078,
+  //     coord_y: -49.00401,
+  //     type: "IFSC",
+  //     title/desc: "IFSC - Campus Gaspar"
+
+  //     coord_x: -26.90564,
+  //     coord_y: -49.00478,
+  //     type: "paisagens",
+  //     title/desc: "Mirante no Bela Vista"
+
 [ ] #0 Check Firebase rules to access database, currently vulnerable (will need to add auth to deploy app)
+
+[ ] #0.1 Add support to popup instead of alert? https://docs.mapbox.com/mapbox-gl-js/example/popup-on-click/
+https://mariestarck.com/how-to-display-popups-on-a-mapbox-map-mapbox-react-tutorial-part-3/
+https://visgl.github.io/react-map-gl/docs/api-reference/map-controller
 
 [X] #1 use react-native-paper
 https://callstack.github.io/react-native-paper/
@@ -105,7 +134,7 @@ https://stackoverflow.com/questions/41129088/react-native-android-location-reque
 -> https://github.com/DylanVann/react-native-fast-image 2021 <-
 -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/PriorityExample.tsx
 -> https://github.com/DylanVann/react-native-fast-image/blob/main/ReactNativeFastImageExample/src/SectionFlex.tsx
-$ yarn.cmd add react-native-fast-image
+$ yarn add react-native-fast-image
 ? https://github.com/intellidev1991/react-native-image-slider-box 2021
 
 [ ] #5 Improve navigation

@@ -8,15 +8,18 @@ import {
   Alert
 } from "react-native";
 
+import NavigationService from '../helpers/NavigationService.js';
+
 import firestore from '@react-native-firebase/firestore';
 
 import MapboxGL from "@react-native-mapbox-gl/maps";
 MapboxGL.setAccessToken("pk.eyJ1IjoiZGllZ29tcnVzc2kiLCJhIjoiY2txNzdzcW93MDBzdzJ1czFuYnh1MTd6dSJ9.gyNJSzLJdeUUS0iySzdLhw");
+
 import Geolocation from '@react-native-community/geolocation';
+
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import NavigationService from '../helpers/NavigationService.js';
 import styles from '../styles/mapStyles'
 
 
@@ -108,7 +111,7 @@ const Map = ({device_uid, login}) => {
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
-      { enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 3600000 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 3600000 }
     );
   }
 
@@ -134,10 +137,11 @@ const Map = ({device_uid, login}) => {
   }
 
   const RenderLocationAnnotations = () => {
-    console.log("state.locationsArray: ", state.locationsArray);
-    // console.log("state.locationsArray.length: ", state.locationsArray.length);
+    // console.log("state.locationsArray: ", state.locationsArray);
+    console.log("state.locationsArray.length: ", state.locationsArray.length);    
     if (state.locationsArray.length != 0){
-      const locationsItems = state.locationsArray.map((location, index) =>
+      // console.log("state.locationsArray[0].key: ", state.locationsArray.length);
+      const locationsItems = state.locationsArray.map((location) =>
         <MapboxGL.PointAnnotation
           key={location.key}
           id={location.key}
@@ -152,24 +156,8 @@ const Map = ({device_uid, login}) => {
     return null
   }
 
-  // locations hard-coded
-  // let locations = [
-  //   {
-  //     coord_x: -26.90078,
-  //     coord_y: -49.00401,
-  //     type: "IFSC",
-  //     title: "IFSC - Campus Gaspar"
-  //   },
-  //   {
-  //     coord_x: -26.90564,
-  //     coord_y: -49.00478,
-  //     type: "paisagens",
-  //     title: "Mirante no Bela Vista"
-  //   },
-  // ];
-
-  const openLocation = (title, location, location_id) => {
-    NavigationService.navigate('Location', {title: title, location_id: location_id, location: location})
+  const openLocation = (location_id) => {
+    NavigationService.navigate('Location', {location_id: location_id})
   }
 
   const addLocation = () => {
@@ -197,7 +185,7 @@ const Map = ({device_uid, login}) => {
           text: "Voltar",
           style: "cancel"
         },
-        { text: "Visualizar", onPress: () => openLocation(title, location, id) }
+        { text: "Visualizar", onPress: () => openLocation(id) }
       ]
     );
   }
@@ -228,7 +216,8 @@ const Map = ({device_uid, login}) => {
       zoomLevel={10}
       centerCoordinate={currentLongitude ? [currentLongitude, currentLatitude] : coordinates}
       animationMode={'flyTo'}
-      animationDuration={4200}
+      // animationDuration={4200}
+      animationDuration={100}
     >
     </MapboxGL.Camera>
     )

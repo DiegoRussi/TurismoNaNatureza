@@ -1,81 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   Linking
 } from 'react-native';
 
-import NavigationService from '../helpers/NavigationService.js';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { TextInput } from 'react-native-paper';
-import { Picker } from '@react-native-picker/picker';
 import ViewPager from '@react-native-community/viewpager';
+
+import Share from 'react-native-share';
+
+import NavigationService from '../helpers/NavigationService.js';
 
 import styles from '../styles/locationStyles'
 import starStyles from '../styles/starStyles'
 
-// import getLocationInfo from '../database/LocationHelper.js'
+const Location = ({ location_id }) => {
+  console.log("Location DEBUG")
 
-const Location = ({ location_id, l_title, location}) => {
-  console.log("Location DEBUG");
-  console.log("location_id = ", location_id);
-  console.log("l_title = ", l_title);
-  console.log("location = ", location);
+  // locations database
+  const [locationsRef, setLocationsRef] = useState(firestore().collection('locations'))
 
-  // const [
-  //   latitude, longitude, type, title, desc, images, rate
-  // ] = getLocationInfo(location_id);
+  const [state, setState] = useState({
+    isLoading: true,
+    currentLongitude: "",
+    currentLatitude: "",
+    locationType: "",
+    locationTitle: "",
+    locationDesc: "",
+  })
 
-  const longitude = location[0];
-  const latitude = location[1];
-  const type = "cachoeiras";
-  const title = l_title;
-  const desc = "TESTE";
-  const images =  [
-    'https://static01.nyt.com/images/2020/12/10/travel/10europe-02/10europe-02-facebookJumbo.jpg',
-    'https://static.educalingo.com/img/en/800/nature.jpg',
-    'https://media.cntraveller.com/photos/611bf0b8f6bd8f17556db5e4/1:1/w_2000,h_2000,c_limit/gettyimages-1146431497.jpg'
-  ];
-  // const imgPlaceholder = {uri: "https://www.ultimatesource.toys/wp-content/uploads/2013/11/dummy-image-landscape-1-1024x800.jpg"}
-  // const images =  [
-  //   imgPlaceholder,
-  //   imgPlaceholder,
-  //   imgPlaceholder
-  // ];
-  const rate = 4;
-  console.log("longitude = ", longitude);
-  console.log("latitude = ", latitude);
-  console.log("type = ", type);
-  console.log("title = ", title);
-  console.log("desc = ", desc);
-  console.log("images = ", images);
-  console.log("rate = ", rate);
+  const [locationImage0, setLocationImage0] = useState(require("../assets/empty.jpg"))
+  const [locationImage1, setLocationImage1] = useState(require("../assets/empty.jpg"))
+  const [locationImage2, setLocationImage2] = useState(require("../assets/empty.jpg"))
 
-  const [currentLongitude, setCurrentLongitude] = useState(longitude);
-  const [currentLatitude, setCurrentLatitude] = useState(latitude);
-  const [locationType, setLocationType] = useState(type);
-  const [locationTitle, setLocationTitle] = useState(title);
-  const [locationDesc, setLocationDesc] = useState(desc);
-  const [locationImages, setLocationImages] = useState(images);
-  const [starRate, setStarRate] = useState(rate); 
-  const [starRatings, setstarRatings] = useState([1, 2, 3, 4, 5]); 
+  const [starRate, setStarRate] = useState(state.locationStarRate)
+  const [starRatings, setstarRatings] = useState([1, 2, 3, 4, 5])
+
+  useEffect(() => {
+    return locationsRef.onSnapshot((querySnapshot => {
+      getCollection(querySnapshot)
+    }))
+    
+  }, [])
+
+  const getCollection = (querySnapshot) => {
+    querySnapshot.forEach((res) => {
+      if (res.id == location_id) {
+        const data = res.data();
+        setState({
+            isLoading: false,          
+            currentLongitude: data.coord_x,
+            currentLatitude: data.coord_y,
+            locationType: data.type,
+            locationTitle: data.title,
+            locationDesc: data.desc,
+            locationStarRate: data.review
+        });
+        setStarRate(data.review);
+        data.images.forEach( (img, index) => {
+          let ref = storage().ref(img);
+          ref.getDownloadURL().then((url) => {
+            switch (index) {
+              case 0:
+                setLocationImage0(url);
+                break;
+              case 1:
+                setLocationImage1(url);
+                break;
+              case 2:
+                setLocationImage2(url);
+                break;
+              default:
+                break;
+            }
+          }).catch((e) => {
+            console.log('getting downloadURL of image error => ', e)
+          });
+        });
+      }
+    });
+  }
 
   const RatingStars = () => { 
     return ( 
       <View style={starStyles.ratingStarsStyle}> 
         {starRatings.map((item, key) => { 
           return ( 
-            <TouchableOpacity 
-              activeOpacity={0.7} 
-              key={item} 
-              onPress={() => setStarRate(item)}> 
+            <TouchableWithoutFeedback 
+              key={item}> 
               <Image 
                 style={starStyles.starImageStyle} 
                 source={ 
@@ -84,7 +107,7 @@ const Location = ({ location_id, l_title, location}) => {
                     : require('../assets/star-empty.png') 
                 } 
               /> 
-            </TouchableOpacity> 
+            </TouchableWithoutFeedback> 
           ); 
         })} 
       </View> 
@@ -93,18 +116,33 @@ const Location = ({ location_id, l_title, location}) => {
 
   const shareLocation = () => {
     console.log("TO BE IMPLEMENTED")
-  }
-
-  const starLocation = () => {
-    console.log("TO BE IMPLEMENTED")
+    let options = {
+      title: "Compartilhar Local",
+      message: `TurismoNaNatureza\nLocal: ${state.locationTitle}\nTipo: ${state.locationType}\nDescrição: ${state.locationDesc}\nComo Chegar: https://maps.google.com/?q=${state.currentLatitude},${state.currentLongitude}`,
+    };
+    Share.open(options)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        err && console.log(err);
+      });
   }
 
   const openLocationRoute = () => {
     console.log("openLocationRoute")
     Linking.openURL(
       // `http://www.google.com/maps/place/${currentLatitude},${currentLongitude}`
-      `https://maps.google.com/?q=${currentLatitude},${currentLongitude}`
+      `https://maps.google.com/?q=${state.currentLatitude},${state.currentLongitude}`
     );
+  }
+
+  const getURI = (imagePath, pos) => {
+    let imgSource = imagePath;
+    if (isNaN(imagePath)) {
+      imgSource = { uri: imagePath };
+    }
+    return imgSource
   }
 
   return (
@@ -113,8 +151,8 @@ const Location = ({ location_id, l_title, location}) => {
         <View style={styles.subContainer}>
           <Image style={styles.logo} source={{uri: 'https://www.iconsdb.com/icons/preview/green/map-marker-xxl.png'}} />
           <Text style={styles.title}>Coordenadas</Text>
-          <Text style={styles.subtitle}>Latitude: {currentLatitude}</Text>
-          <Text style={styles.subtitle}>Longitude: {currentLongitude}</Text>
+          <Text style={styles.subtitle}>Latitude: {state.currentLatitude}</Text>
+          <Text style={styles.subtitle}>Longitude: {state.currentLongitude}</Text>
         </View>
 
         <View style={styles.form}>
@@ -122,14 +160,14 @@ const Location = ({ location_id, l_title, location}) => {
           <TextInput style={styles.text}
             mode="outlined"
             label="Tipo"
-            value={locationType}
+            value={state.locationType}
             editable={false}
           />
 
           <TextInput style={styles.text}
             mode="outlined"
             label="Título"
-            value={locationTitle}
+            value={state.locationTitle}
             editable={false}
           />
 
@@ -137,24 +175,24 @@ const Location = ({ location_id, l_title, location}) => {
             mode="outlined"
             label="Descrição"
             placeholder="Insira uma Descrição"
-            value={locationDesc}
+            value={state.locationDesc}
             editable={false}
             multiline={true}
             numberOfLines={4}
           />
 
-          <Text style={starStyles.textStyle}>Imagens</Text>
+          <Text style={styles.title}>Imagens</Text>
           <ViewPager
             pageMargin={1}
             style={{ height: 250 }}>
             <View>
-              <Image source={{uri: locationImages[0]}} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImage0)} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={{uri: locationImages[1]}} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImage1)} style={{width: 420, height: 250}}/>
             </View>
             <View>
-              <Image source={{uri: locationImages[2]}} style={{width: 420, height: 250}}/>
+              <Image source={getURI(locationImage2)} style={{width: 420, height: 250}}/>
             </View>
           </ViewPager>
 
@@ -173,9 +211,6 @@ const Location = ({ location_id, l_title, location}) => {
       <ActionButton buttonColor="rgba(1, 152, 117, 1)">
         <ActionButton.Item buttonColor='#9b59b6' title="Compartilhar" onPress={() => shareLocation()}>
           <Icon name="md-share" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Avaliar" onPress={() => starLocation()}>
-          <Icon name="md-star" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item buttonColor='#3498db' title="Como Chegar" onPress={() => openLocationRoute()}>
           <Icon name="md-map-outline" style={styles.actionButtonIcon} />
