@@ -111,7 +111,7 @@ const Map = ({device_uid, login}) => {
         setCurrentLatitude(0);
         setCurrentLongitude(0);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 3600000 }
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 }
     );
   }
 

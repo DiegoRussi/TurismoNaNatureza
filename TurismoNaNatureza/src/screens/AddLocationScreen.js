@@ -6,7 +6,7 @@ import styles from '../styles/locationStyles'
 
 class AddLocationScreen extends Component {
   static navigationOptions = {
-    title: 'Local',
+    title: 'Adicionar Local',
     headerStyle: {
       backgroundColor: 'green'
     },

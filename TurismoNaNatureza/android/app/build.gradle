@@ -166,6 +166,11 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    android {
+        dexOptions {
+        javaMaxHeapSize "3g"
+        }
+    }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->

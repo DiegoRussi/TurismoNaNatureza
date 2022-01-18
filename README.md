@@ -102,16 +102,19 @@ https://blog.kevinchisholm.com/react-native/mapbox-map-show-points/
 !!! Create remote repository gitlab/github
 
 !!! POPULATE locations
-  // locations hard-coded
-  //     coord_x: -26.90078,
-  //     coord_y: -49.00401,
-  //     type: "IFSC",
-  //     title/desc: "IFSC - Campus Gaspar"
-
-  //     coord_x: -26.90564,
-  //     coord_y: -49.00478,
-  //     type: "paisagens",
-  //     title/desc: "Mirante no Bela Vista"
+https://www.google.com/maps/contrib/100106615001364559413/place/ChIJdT8inCpr35QRRvF9Mydl2qc/@-27.1154236,-49.2040628,11.04z/data=!4m6!1m5!8m4!1e2!2s100106615001364559413!3m1!1e1
+https://www.youtube.com/watch?v=CP_o4YcTcts
+TRILHA Inicio da trilha Pico Mordida do Gigante
+ RPPN Reserva Bugerkopf 
+  Trilha do Xerife 
+MONTANHA  Pico Mordida do gigante 
+ Pico da bateia 
+  Morro do Spitzkopf 
+   Mini spitz 
+    Mirante Da Polaquia 
+Mirante+e+Cruz+da+Trilha+Patheus,+Gaspar+-+SC
+RIACHOS
+   Rio Encano 
 
 [ ] #0 Check Firebase rules to access database, currently vulnerable (will need to add auth to deploy app)
 
@@ -161,8 +164,18 @@ navigation 4.x docs
 
 # DEPLOY
 
-$ yarn lint
-$ jest
-? generate apk
+## yarn lint
 
-* https://github.com/welldone-software/why-did-you-render
+## jest
+
+## https://github.com/welldone-software/why-did-you-render
+
+## generate apk
+https://stackoverflow.com/questions/35935060/how-can-i-generate-an-apk-that-can-run-without-server-with-react-native
+You will have to create a key to sign the apk. Use below to create your key:
+$ keytool -genkey -v -keystore my-app-key.keystore -alias my-app-alias -keyalg RSA -keysize 2048 -validity 10000
+turismonanatureza
+$ react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+$ cd android && ./gradlew assembleRelease
+https://stackoverflow.com/questions/56075455/expiring-daemon-because-jvm-heap-space-is-exhausted
+$ adb install -r ./app/build/outputs/apk/app-release-unsigned.apk

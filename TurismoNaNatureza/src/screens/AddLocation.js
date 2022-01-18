@@ -316,6 +316,15 @@ const AddLocation = ({ location }) => {
             numberOfLines={4}
           />
 
+          <SafeAreaView style={starStyles.container}>
+            <View style={starStyles.container}>
+              <Text style={starStyles.textStyle}>
+                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
+              </Text>
+              {RatingStars()}
+            </View>
+          </SafeAreaView>
+
           <Text style={styles.title}>Imagens</Text>
           <ViewPager
             pageMargin={1}
@@ -338,15 +347,6 @@ const AddLocation = ({ location }) => {
           >
             Adicionar Imagens
           </Button>
-
-          <SafeAreaView style={starStyles.container}>
-            <View style={starStyles.container}>
-              <Text style={starStyles.textStyle}>
-                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
-              </Text>
-              {RatingStars()}
-            </View>
-          </SafeAreaView>
 
           <Button style={styles.button}
             color="green"

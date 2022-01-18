@@ -115,7 +115,6 @@ const Location = ({ location_id }) => {
   };
 
   const shareLocation = () => {
-    console.log("TO BE IMPLEMENTED")
     let options = {
       title: "Compartilhar Local",
       message: `TurismoNaNatureza\nLocal: ${state.locationTitle}\nTipo: ${state.locationType}\nDescrição: ${state.locationDesc}\nComo Chegar: https://maps.google.com/?q=${state.currentLatitude},${state.currentLongitude}`,
@@ -181,6 +180,15 @@ const Location = ({ location_id }) => {
             numberOfLines={4}
           />
 
+          <SafeAreaView style={starStyles.container}>
+            <View style={starStyles.container}>
+              <Text style={starStyles.textStyle}>
+                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
+              </Text>
+              {RatingStars()}
+            </View>
+          </SafeAreaView>
+
           <Text style={styles.title}>Imagens</Text>
           <ViewPager
             pageMargin={1}
@@ -195,15 +203,6 @@ const Location = ({ location_id }) => {
               <Image source={getURI(locationImage2)} style={{width: 420, height: 250}}/>
             </View>
           </ViewPager>
-
-          <SafeAreaView style={starStyles.container}>
-            <View style={starStyles.container}>
-              <Text style={starStyles.textStyle}>
-                Avaliação: {starRate} / {Math.max.apply(null, starRatings)}
-              </Text>
-              {RatingStars()}
-            </View>
-          </SafeAreaView>
 
         </View>
       </ScrollView>
