@@ -1,5 +1,9 @@
 # TurismoNaNatureza
 
+<p align="center">
+  <img width="420" height="420" src="https://user-images.githubusercontent.com/21963294/152661534-1d9baba2-1670-4b20-b5e4-64e14235750a.jpg">
+</p>
+
 > Aplicativo de geolocalização para registrar e compartilhar potenciais destinos para a prática do turismo na natureza
 
 Um aplicativo para criar e compartilhar locais antes não registrados para o turismo na natureza.
