@@ -11,6 +11,8 @@ com objetivo de valorizar e promover a prática em relação à capacidade turí
 
 O aplicativo possui funcionalidades para descobrir, compartilhar e sugerir novos pontos turísticos na natureza.
 
+https://user-images.githubusercontent.com/21963294/154480176-0911106d-c037-4c34-8466-6e576d293ec1.mp4
+
 ## Projeto
 
 ### Casos de Uso
